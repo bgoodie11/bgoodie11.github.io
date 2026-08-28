@@ -6,7 +6,7 @@ const nodes=[
 {id:"amazon",label:"AMAZON · 23",gx:3,gy:2,color:"#FF9900",ink:"#111118",tag:"2023 · SEATTLE",title:"Technical Program Manager Intern",copy:"Amazon. Data management, automation, and operations at scale."},
 {id:"curinos",label:"CURINOS · 24",gx:9,gy:1,color:"#6D50FF",ink:"#FFFFFF",tag:"MARCH — OCTOBER 2024",title:"Associate",copy:"Curinos. Financial services data and consulting."},
 {id:"yext",label:"YEXT · 24→",gx:15,gy:2,color:"#FFFFFF",ink:"#111118",tag:"OCTOBER 2024 — NOW · NEW YORK",title:"Technical Partner Manager",copy:"Yext. Product integrations and technical partnerships."},
-{id:"scaffold",label:"SCAFFOLDMAX · 26",gx:9,gy:5,color:"#C8FF45",ink:"#111118",tag:"2026 · SIDE PROJECT",title:"ScaffoldMaxNYC",copy:"An interactive NYC development capacity explorer.",link:"/scaffold/"}
+{id:"scaffold",label:"SCAFFOLDMAX · 26",gx:9,gy:5,color:"#C8FF45",ink:"#111118",tag:"2026 · SIDE PROJECT",title:"ScaffoldMaxNYC",copy:"A map for navigating NYC while staying dry under scaffolding.",link:"/scaffold/"}
 ];
 const hazards=[{x:6,y:3},{x:12,y:3},{x:6,y:7},{x:12,y:7},{x:9,y:7}];
 let width=0,height=0,dpr=1,cell=40,offsetX=0,offsetY=0,tick=0,snake=[],dir={x:1,y:0},visited=new Set(),targetIndex=0,moves=0,won=false,toastTimer=null,confetti=[];
