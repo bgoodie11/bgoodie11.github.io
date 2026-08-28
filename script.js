@@ -20,7 +20,7 @@ function move(next){dir=next;const head=snake[0],newHead={x:(head.x+dir.x+COLS)%
 const directions={ArrowUp:{x:0,y:-1},w:{x:0,y:-1},W:{x:0,y:-1},ArrowDown:{x:0,y:1},s:{x:0,y:1},S:{x:0,y:1},ArrowLeft:{x:-1,y:0},a:{x:-1,y:0},A:{x:-1,y:0},ArrowRight:{x:1,y:0},d:{x:1,y:0},D:{x:1,y:0}};
 addEventListener("keydown",e=>{if(!directions[e.key]||document.activeElement!==canvas)return;e.preventDefault();move(directions[e.key])});
 canvas.addEventListener("mouseenter",()=>canvas.focus());canvas.addEventListener("click",e=>{canvas.focus();const r=canvas.getBoundingClientRect(),mx=e.clientX-r.left,my=e.clientY-r.top;let hit=null;nodes.forEach(n=>{const p=pt(n.gx,n.gy);if(Math.hypot(mx-p.x,my-p.y)<cell*.75)hit=n});if(hit){snake.unshift({x:hit.gx,y:hit.gy});snake.length=4+visited.size;openNode(hit);draw()}});
-hint.addEventListener("click",()=>{canvas.focus()});
+
 document.querySelectorAll("[data-direction]").forEach(b=>b.addEventListener("click",()=>{canvas.focus();move(directions["Arrow"+b.dataset.direction[0].toUpperCase()+b.dataset.direction.slice(1)])}));
 document.getElementById("reset-game").onclick=reset;document.querySelector(".dialog-close").onclick=()=>{dialog.close();canvas.focus()};dialog.addEventListener("click",e=>{if(e.target===dialog){dialog.close();canvas.focus()}});
 function grid(){ctx.fillStyle="#0d0e17";ctx.fillRect(0,0,width,height);ctx.strokeStyle="rgba(255,255,255,.065)";ctx.lineWidth=1;for(let x=0;x<=COLS;x++){const px=offsetX+x*cell;ctx.beginPath();ctx.moveTo(px,offsetY);ctx.lineTo(px,offsetY+ROWS*cell);ctx.stroke()}for(let y=0;y<=ROWS;y++){const py=offsetY+y*cell;ctx.beginPath();ctx.moveTo(offsetX,py);ctx.lineTo(offsetX+COLS*cell,py);ctx.stroke()}}
