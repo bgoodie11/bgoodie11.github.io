@@ -13,3 +13,6 @@
 .work-links{display:flex;justify-content:flex-end;gap:28px;margin-top:35px;font:600 11px "DM Mono"}
 footer a{text-decoration:none}
 @media(max-width:760px){.hero{min-height:78vh}.hero h1{font-size:22vw}.hero-links{align-items:flex-start;flex-direction:column}.play-section{padding-top:45px}.tile-grid{grid-template-columns:1fr}.work-links{justify-content:flex-start;flex-direction:column;gap:15px}}
+
+.green{background:#9be49b}
+.play-section{padding-top:34px}
