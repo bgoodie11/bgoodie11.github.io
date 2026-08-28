@@ -1,122 +1,51 @@
 <!doctype html>
 <html lang="en">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="Brett Goodman — technical product, integrations, and partnerships.">
-  <meta name="theme-color" content="#0b1020">
-  <title>Brett Goodman — Product, Integrations & Partnerships</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="description" content="Hi, I'm Brett. I work on products, partnerships, and integrations.">
+  <meta name="theme-color" content="#fff7e8"><title>Hi, I'm Brett.</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Manrope:wght@500;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-  <a class="skip-link" href="#work">Skip the map</a>
-  <header class="nav">
-    <a class="wordmark" href="#top">BG<span class="pulse"></span></a>
-    <nav aria-label="Main navigation">
-      <a href="#work">Work</a><a href="#projects">Projects</a><a href="#about">About</a>
-      <a class="nav-cta" href="mailto:brettgoodman11@gmail.com">Say hello ↗</a>
-    </nav>
-  </header>
+<header class="nav"><a class="logo" href="#top">brett<span>.</span></a><nav><a href="#play">play</a><a href="#work">work</a><a href="#about">about</a><a href="mailto:brettgoodman11@gmail.com">email ↗</a></nav></header>
+<main id="top">
+  <section class="hero">
+    <div class="doodle doodle-star">✦</div><div class="doodle doodle-arrow">↘</div>
+    <p class="hello-tag">HELLO FROM NEW YORK</p>
+    <h1>Hi, I’m<br><span>Brett.</span></h1>
+    <p class="intro">I work on products, partnerships,<br>and things that connect.</p>
+    <a class="play-pill" href="#play">play my résumé <b>↓</b></a>
+    <div class="hero-sticker sticker-one">BUILDER-ISH</div><div class="hero-sticker sticker-two">PRODUCT<br>+ TECH</div>
+  </section>
 
-  <main id="top">
-    <section class="hero">
-      <div class="eyebrow"><span></span> New York City</div>
-      <h1>I connect <em>products,</em><br><em>platforms</em> & people.</h1>
-      <p class="hero-copy">I’m Brett Goodman—a technical product and partnerships operator who turns complex integrations into products people can actually use.</p>
-      <div class="hero-actions">
-        <a class="button primary" href="#map">Explore the map ↓</a>
-        <a class="button ghost" href="#work">Skip to the work</a>
-      </div>
-    </section>
+  <section class="play-section" id="play">
+    <div class="section-title"><p>01 / PLAY</p><h2>Find your way around.</h2><span>Move the snake into a dot.<br>Or just click one.</span></div>
+    <div class="game">
+      <div class="game-bar"><span><i></i> BRETT.EXE</span><span><b id="visited-count">0</b>/6 FOUND</span><button id="reset-game">RESET</button></div>
+      <div class="canvas-wrap"><canvas id="network-canvas" tabindex="0" aria-label="Playable résumé. Use arrow keys or WASD."></canvas><button class="start-hint" id="start-hint">click here, then use arrow keys</button></div>
+      <div class="mobile-controls"><button data-direction="up">↑</button><div><button data-direction="left">←</button><button data-direction="down">↓</button><button data-direction="right">→</button></div></div>
+    </div>
+  </section>
 
-    <section class="map-section" id="map" aria-labelledby="map-title">
-      <div class="section-heading map-heading">
-        <div><p class="kicker">Interactive résumé</p><h2 id="map-title">Route the signal.</h2></div>
-        <div class="map-instructions"><span>Arrow keys / WASD to move</span><span>Click any node to jump</span></div>
-      </div>
-      <div class="game-shell">
-        <div class="game-topbar">
-          <div><span class="status-dot"></span> SIGNAL ONLINE</div>
-          <div><span id="visited-count">0</span> / 6 NODES VISITED</div>
-        </div>
-        <div class="canvas-wrap">
-          <canvas id="network-canvas" aria-label="Interactive career map. Use arrow keys or WASD to guide the signal to a node."></canvas>
-          <div class="map-label" aria-hidden="true">BRETT_NETWORK / 2026</div>
-        </div>
-        <div class="mobile-controls" aria-label="Movement controls">
-          <button data-direction="up" aria-label="Move up">↑</button>
-          <div><button data-direction="left" aria-label="Move left">←</button><button data-direction="down" aria-label="Move down">↓</button><button data-direction="right" aria-label="Move right">→</button></div>
-        </div>
-      </div>
-    </section>
+  <section class="work" id="work">
+    <div class="section-title dark"><p>02 / WORK</p><h2>A few things.</h2><span>The short version.</span></div>
+    <div class="big-card coral"><small>NOW</small><h3>Yext</h3><p>Technical partnerships.<br>Products. Integrations.</p><b>NYC ↗</b></div>
+    <div class="tile-grid">
+      <article class="tile yellow"><small>BEFORE</small><h3>Amazon</h3><p>Data, operations, automation.</p></article>
+      <article class="tile blue"><small>SCHOOL</small><h3>UNC</h3><p>Business + data science.</p></article>
+      <a class="tile black" href="/scaffold/"><small>I MADE THIS</small><h3>Scaffold</h3><p>Take a look ↗</p></a>
+    </div>
+  </section>
 
-    <section class="work section" id="work">
-      <div class="section-heading">
-        <div><p class="kicker">Selected work</p><h2>The connective tissue.</h2></div>
-        <p>I work where product decisions, partner constraints, technical systems, and commercial outcomes collide.</p>
-      </div>
-      <article class="feature-card">
-        <div class="feature-index">01</div>
-        <div class="feature-main">
-          <p class="tag">YEXT · TECHNICAL PARTNER MANAGER</p>
-          <h3>Making complex platforms work together.</h3>
-          <p>I lead technical partner relationships and integration strategy across search, discovery, and healthcare ecosystems—translating platform complexity into reliable products.</p>
-        </div>
-        <div class="metric-grid">
-          <div><strong>Product</strong><span>roadmaps and requirements</span></div>
-          <div><strong>Technical</strong><span>APIs, data, and systems</span></div>
-          <div><strong>Partner</strong><span>strategy and execution</span></div>
-        </div>
-      </article>
-      <div class="story-grid">
-        <article class="story-card"><div class="story-icon">↗</div><p class="tag">PRODUCT × COMMERCIAL</p><h3>Platform integrations</h3><p>Lead integrations from partner alignment through requirements, delivery, launch, and adoption.</p></article>
-        <article class="story-card"><div class="story-icon">✦</div><p class="tag">HEALTHCARE DATA</p><h3>Entity design</h3><p>Untangle how providers and organizations map across complex publisher ecosystems.</p></article>
-        <article class="story-card"><div class="story-icon">◎</div><p class="tag">PLATFORM RELIABILITY</p><h3>Integration monitoring</h3><p>Build technical systems that turn invisible integration failures into actionable signals.</p></article>
-      </div>
-    </section>
-
-    <section class="projects section" id="projects">
-      <div class="section-heading">
-        <div><p class="kicker">Things I build</p><h2>Ideas with working URLs.</h2></div>
-        <p>I like turning “someone should make that” into something you can click.</p>
-      </div>
-      <a class="project-card scaffold-card" href="/scaffold/">
-        <div class="project-copy"><p class="tag">FEATURED PROJECT</p><h3>Scaffold</h3><p>A working side project built to make a complicated process feel more tangible.</p><span>Launch project ↗</span></div>
-        <div class="project-visual" aria-hidden="true"><div class="mini-window"><div class="mini-bar"><i></i><i></i><i></i></div><div class="mini-body"><div></div><div></div><div></div></div></div></div>
-      </a>
-      <div class="project-list">
-        <div><span>Commute Tracker</span><small>GPS × transportation data</small></div>
-        <div><span>NYC Rent Tracker</span><small>Listings × neighborhood intelligence</small></div>
-        <div><span>Hold Music</span><small>A better waiting experience</small></div>
-      </div>
-    </section>
-
-    <section class="about section" id="about">
-      <div class="about-grid">
-        <div><p class="kicker">A little more human</p><h2>Technical enough to build it. Commercial enough to know why.</h2></div>
-        <div class="about-copy">
-          <p>I studied business and data science at UNC, learned how large systems move at Amazon, and now operate between product, engineering, sales, and major technology platforms at Yext.</p>
-          <p>Outside work, I’m usually planning a trip, following Fulham, cooking something at 425°, or building a side project that started as an overly specific complaint.</p>
-          <div class="link-row"><a href="https://github.com/bgoodie11">GitHub ↗</a><a href="mailto:brettgoodman11@gmail.com">Email ↗</a></div>
-        </div>
-      </div>
-    </section>
-
-    <section class="contact section">
-      <p class="kicker">Open channel</p><h2>Let’s make something<br>connect.</h2>
-      <a class="button primary light" href="mailto:brettgoodman11@gmail.com">brettgoodman11@gmail.com ↗</a>
-    </section>
-  </main>
-  <footer><span>© 2026 Brett Goodman</span><span>Designed as a network. Built as a website.</span></footer>
-
-  <dialog id="node-dialog">
-    <button class="dialog-close" aria-label="Close">×</button>
-    <p class="tag" id="dialog-tag"></p><h2 id="dialog-title"></h2><p id="dialog-copy"></p>
-    <div id="dialog-metric"></div><a id="dialog-link" href="#" hidden>Explore ↗</a>
-  </dialog>
-  <script src="script.js"></script>
-</body>
-</html>
+  <section class="about" id="about">
+    <p class="hello-tag">03 / A LITTLE MORE</p>
+    <h2>I like building useful things, traveling without much of a plan, Fulham, and cooking everything at 425°.</h2>
+    <div class="links"><a href="https://github.com/bgoodie11">github ↗</a><a href="mailto:brettgoodman11@gmail.com">email ↗</a></div>
+  </section>
+</main>
+<footer><span>BRETT GOODMAN © 2026</span><span>MADE IN NEW YORK*</span><small>*technically made on the internet</small></footer>
+<dialog id="node-dialog"><button class="dialog-close" aria-label="Close">×</button><p class="dialog-tag" id="dialog-tag"></p><h2 id="dialog-title"></h2><p id="dialog-copy"></p><a id="dialog-link" href="#" hidden>go there ↗</a></dialog>
+<script src="script.js"></script>
+</body></html>
