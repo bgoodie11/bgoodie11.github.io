@@ -8,12 +8,16 @@ const nodes=[
 {id:"yext",label:"YEXT · 24→",gx:15,gy:2,color:"#FFFFFF",ink:"#111118",tag:"OCTOBER 2024 — NOW · NEW YORK",title:"Technical Partner Manager",copy:"Yext. Product integrations and technical partnerships."},
 {id:"scaffold",label:"SCAFFOLDMAX · 26",gx:9,gy:5,color:"#C8FF45",ink:"#111118",tag:"2026 · SIDE PROJECT",title:"ScaffoldMaxNYC",copy:"A map for navigating NYC while staying dry under scaffolding.",link:"/scaffold/"}
 ];
-const hazards=[{x:6,y:3},{x:12,y:3},{x:6,y:7},{x:12,y:7},{x:9,y:7}];
+const nodeSlots=[{x:3,y:8},{x:15,y:8},{x:3,y:2},{x:9,y:1},{x:15,y:2},{x:9,y:5}];
+const hazardSlots=[{x:6,y:3},{x:12,y:3},{x:6,y:7},{x:12,y:7},{x:9,y:7},{x:2,y:5},{x:15,y:5},{x:9,y:3},{x:4,y:5},{x:14,y:9}];
+let hazards=[];
 let width=0,height=0,dpr=1,cell=40,offsetX=0,offsetY=0,tick=0,snake=[],dir={x:1,y:0},visited=new Set(),targetIndex=0,moves=0,won=false,toastTimer=null,confetti=[];
 const directions={ArrowUp:{x:0,y:-1},w:{x:0,y:-1},W:{x:0,y:-1},ArrowDown:{x:0,y:1},s:{x:0,y:1},S:{x:0,y:1},ArrowLeft:{x:-1,y:0},a:{x:-1,y:0},A:{x:-1,y:0},ArrowRight:{x:1,y:0},d:{x:1,y:0},D:{x:1,y:0}};
 function updateHud(){document.getElementById("visited-count").textContent=visited.size;document.getElementById("move-count").textContent=moves;document.getElementById("target-label").textContent=won?"YOU WIN":nodes[targetIndex].label.split(" · ")[0]}
+function shuffled(items){const copy=items.slice();for(let i=copy.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[copy[i],copy[j]]=[copy[j],copy[i]]}return copy}
+function randomizeBoard(){const slots=shuffled(nodeSlots);nodes.forEach((n,i)=>{n.gx=slots[i].x;n.gy=slots[i].y});hazards=shuffled(hazardSlots).slice(0,5)}
 function resetSnake(){snake=[{x:9,y:9},{x:8,y:9},{x:7,y:9},{x:6,y:9}];dir={x:1,y:0}}
-function reset(){resetSnake();visited=new Set();targetIndex=0;moves=0;won=false;confetti=[];updateHud();canvas.focus();draw()}
+function reset(){randomizeBoard();resetSnake();visited=new Set();targetIndex=0;moves=0;won=false;confetti=[];updateHud();canvas.focus();draw()}
 function resize(){const r=wrap.getBoundingClientRect();width=r.width;height=r.height;dpr=Math.min(devicePixelRatio||1,2);canvas.width=width*dpr;canvas.height=height*dpr;ctx.setTransform(dpr,0,0,dpr,0,0);cell=Math.min(width/(COLS+1),height/(ROWS+1));offsetX=(width-cell*COLS)/2;offsetY=(height-cell*ROWS)/2;draw()}
 new ResizeObserver(resize).observe(wrap);
 function pt(gx,gy){return{x:offsetX+(gx+.5)*cell,y:offsetY+(gy+.5)*cell}}
