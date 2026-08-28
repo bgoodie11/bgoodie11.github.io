@@ -1,4 +1,4 @@
-const canvas=document.getElementById("network-canvas"),ctx=canvas.getContext("2d"),wrap=document.querySelector(".canvas-wrap"),dialog=document.getElementById("node-dialog"),toast=document.getElementById("game-toast");
+const canvas=document.getElementById("network-canvas"),ctx=canvas.getContext("2d"),wrap=document.querySelector(".canvas-wrap"),dialog=document.getElementById("node-dialog"),toast=document.getElementById("game-toast"),game=document.querySelector(".game");
 const COLS=18,ROWS=11;
 const nodes=[
 {id:"unc",label:"UNC · 20–23",gx:3,gy:8,color:"#7BAFD4",ink:"#13294B",tag:"2020 — DECEMBER 2023",title:"UNC Kenan-Flagler",copy:"University of North Carolina at Chapel Hill. B.S. in Business Administration + Data Science."},
@@ -6,7 +6,7 @@ const nodes=[
 {id:"amazon",label:"AMAZON · 23",gx:3,gy:2,color:"#FF9900",ink:"#111118",tag:"2023 · SEATTLE",title:"Technical Program Manager Intern",copy:"Amazon. Data management, automation, and operations at scale."},
 {id:"curinos",label:"CURINOS · 24",gx:9,gy:1,color:"#6D50FF",ink:"#FFFFFF",tag:"MARCH — OCTOBER 2024",title:"Associate",copy:"Curinos. Financial services data and consulting."},
 {id:"yext",label:"YEXT · 24→",gx:15,gy:2,color:"#FFFFFF",ink:"#111118",tag:"OCTOBER 2024 — NOW · NEW YORK",title:"Technical Partner Manager",copy:"Yext. Product integrations and technical partnerships."},
-{id:"scaffold",label:"SCAFFOLDMAX · 26",gx:9,gy:5,color:"#C8FF45",ink:"#111118",tag:"2026 · SIDE PROJECT",title:"ScaffoldMaxNYC",copy:"An interactive NYC development capacity explorer.",link:"/scaffold/"}
+{id:"scaffold",label:"SCAFFOLDMAX · 26",gx:9,gy:5,color:"#C8FF45",ink:"#111118",tag:"2026 · SIDE PROJECT",title:"ScaffoldMaxNYC",copy:"A map for navigating NYC while staying dry under scaffolding.",link:"/scaffold/"}
 ];
 const hazards=[{x:6,y:3},{x:12,y:3},{x:6,y:7},{x:12,y:7},{x:9,y:7}];
 let width=0,height=0,dpr=1,cell=40,offsetX=0,offsetY=0,tick=0,snake=[],dir={x:1,y:0},visited=new Set(),targetIndex=0,moves=0,won=false,toastTimer=null,confetti=[];
@@ -18,9 +18,10 @@ function resize(){const r=wrap.getBoundingClientRect();width=r.width;height=r.he
 new ResizeObserver(resize).observe(wrap);
 function pt(gx,gy){return{x:offsetX+(gx+.5)*cell,y:offsetY+(gy+.5)*cell}}
 function showToast(text){toast.textContent=text;toast.classList.add("show");clearTimeout(toastTimer);toastTimer=setTimeout(()=>toast.classList.remove("show"),1100)}
+function crash(){game.classList.remove("crash");void game.offsetWidth;game.classList.add("crash");setTimeout(()=>game.classList.remove("crash"),650)}
 function openNode(n){document.getElementById("dialog-tag").textContent=n.tag;document.getElementById("dialog-title").textContent=n.title;document.getElementById("dialog-copy").textContent=n.copy;const link=document.getElementById("dialog-link");link.hidden=!n.link;if(n.link)link.href=n.link;if(!dialog.open)dialog.showModal()}
 function celebrate(){won=true;updateHud();showToast("YOU FOUND EVERYTHING!");for(let i=0;i<90;i++)confetti.push({x:width/2,y:height/3,vx:(Math.random()-.5)*7,vy:Math.random()*-7-2,c:["#c8ff45","#ff6b4a","#76d8ff","#ffd95a"][i%4],r:Math.random()*4+2})}
-function move(next){if(won)return;dir=next;const head=snake[0],newHead={x:(head.x+dir.x+COLS)%COLS,y:(head.y+dir.y+ROWS)%ROWS};moves++;if(hazards.some(h=>h.x===newHead.x&&h.y===newHead.y)){resetSnake();showToast("OOPS — BACK TO START");updateHud();return}snake.unshift(newHead);snake.length=4+visited.size;const target=nodes[targetIndex];if(newHead.x===target.gx&&newHead.y===target.gy){visited.add(target.id);targetIndex++;showToast("FOUND: "+target.label.split(" · ")[0]);openNode(target);if(targetIndex===nodes.length)celebrate()}else{const wrong=nodes.find(n=>n.gx===newHead.x&&n.gy===newHead.y&&!visited.has(n.id));if(wrong)showToast("FIND "+target.label.split(" · ")[0]+" FIRST")}updateHud();draw()}
+function move(next){if(won)return;dir=next;const head=snake[0],newHead={x:(head.x+dir.x+COLS)%COLS,y:(head.y+dir.y+ROWS)%ROWS};moves++;if(hazards.some(h=>h.x===newHead.x&&h.y===newHead.y)){resetSnake();crash();showToast("CRASH — BACK TO START");updateHud();return}snake.unshift(newHead);snake.length=4+visited.size;const target=nodes[targetIndex];if(newHead.x===target.gx&&newHead.y===target.gy){visited.add(target.id);targetIndex++;showToast("FOUND: "+target.label.split(" · ")[0]);openNode(target);if(targetIndex===nodes.length)celebrate()}else{const wrong=nodes.find(n=>n.gx===newHead.x&&n.gy===newHead.y&&!visited.has(n.id));if(wrong)showToast("FIND "+target.label.split(" · ")[0]+" FIRST")}updateHud();draw()}
 addEventListener("keydown",e=>{if(!directions[e.key]||document.activeElement!==canvas)return;e.preventDefault();move(directions[e.key])});
 canvas.addEventListener("mouseenter",()=>canvas.focus());canvas.addEventListener("click",()=>canvas.focus());
 document.querySelectorAll("[data-direction]").forEach(b=>b.addEventListener("click",()=>{canvas.focus();const name="Arrow"+b.dataset.direction[0].toUpperCase()+b.dataset.direction.slice(1);move(directions[name])}));
