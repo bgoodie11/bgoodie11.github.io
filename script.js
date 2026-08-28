@@ -1,12 +1,12 @@
 const canvas=document.getElementById("network-canvas"),ctx=canvas.getContext("2d"),wrap=document.querySelector(".canvas-wrap"),dialog=document.getElementById("node-dialog"),hint=document.getElementById("start-hint");
 const COLS=18,ROWS=11;
 const nodes=[
-{id:"yext",label:"YEXT",gx:3,gy:2,tag:"NOW",title:"Yext",copy:"Technical partnerships, products, and integrations."},
-{id:"partners",label:"PARTNERS",gx:14,gy:2,tag:"WHAT I DO",title:"Partnerships",copy:"I like the space between two companies where somebody has to make everything actually work."},
-{id:"systems",label:"SYSTEMS",gx:15,gy:7,tag:"WHAT I LIKE",title:"Systems",copy:"APIs, data, debugging, and figuring out why the thing that should work does not."},
-{id:"unc",label:"UNC",gx:9,gy:8,tag:"SCHOOL",title:"UNC",copy:"Business, data science, and Chapel Hill."},
-{id:"amazon",label:"AMAZON",gx:3,gy:8,tag:"BEFORE",title:"Amazon",copy:"Data, operations, and automation at a very large scale."},
-{id:"scaffold",label:"SCAFFOLD",gx:9,gy:4,tag:"I MADE THIS",title:"Scaffold",copy:"A side project that escaped the notes app.",link:"/scaffold/"}
+{id:"yext",label:"YEXT · 24→",gx:3,gy:2,tag:"2024 — NOW · NEW YORK",title:"Technical Partner Manager",copy:"Yext. Product integrations and technical partnerships."},
+{id:"zest",label:"ZEST · 21",gx:14,gy:2,tag:"2021 — 2022",title:"Business Development Intern",copy:"Zest. An early-stage startup and my first real look at building a company."},
+{id:"crowded",label:"CROWDED · 22",gx:15,gy:7,tag:"2022 · TEL AVIV",title:"Product Management Intern",copy:"Crowded. Fintech product work, customer discovery, and plenty of QA."},
+{id:"unc",label:"UNC · 23",gx:9,gy:8,tag:"GRADUATED DECEMBER 2023",title:"UNC Chapel Hill",copy:"B.S. in Business Administration with a minor in Data Science."},
+{id:"amazon",label:"AMAZON · 23",gx:3,gy:8,tag:"2023 · SEATTLE",title:"Program Management Intern",copy:"Amazon. Data management, automation, and operations at scale."},
+{id:"scaffold",label:"SCAFFOLDMAX · 26",gx:9,gy:4,tag:"2026 · SIDE PROJECT",title:"ScaffoldMaxNYC",copy:"A side project that escaped the notes app.",link:"/scaffold/"}
 ];
 let width=0,height=0,dpr=1,cell=40,offsetX=0,offsetY=0,tick=0;
 let snake=[],dir={x:1,y:0},visited=new Set();
