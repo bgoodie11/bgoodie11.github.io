@@ -17,7 +17,7 @@ function updateHud(){document.getElementById("visited-count").textContent=visite
 function shuffled(items){const copy=items.slice();for(let i=copy.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[copy[i],copy[j]]=[copy[j],copy[i]]}return copy}
 function randomizeBoard(){const slots=shuffled(nodeSlots);nodes.forEach((n,i)=>{n.gx=slots[i].x;n.gy=slots[i].y});hazards=shuffled(hazardSlots).slice(0,5)}
 function resetSnake(){snake=[{x:9,y:9},{x:8,y:9},{x:7,y:9},{x:6,y:9}];dir={x:1,y:0}}
-function reset(){randomizeBoard();resetSnake();visited=new Set();targetIndex=0;moves=0;won=false;confetti=[];updateHud();canvas.focus();draw()}
+function reset(shouldFocus=true){randomizeBoard();resetSnake();visited=new Set();targetIndex=0;moves=0;won=false;confetti=[];updateHud();if(shouldFocus)canvas.focus();draw()}
 function resize(){const r=wrap.getBoundingClientRect();width=r.width;height=r.height;dpr=Math.min(devicePixelRatio||1,2);canvas.width=width*dpr;canvas.height=height*dpr;ctx.setTransform(dpr,0,0,dpr,0,0);cell=Math.min(width/(COLS+1),height/(ROWS+1));offsetX=(width-cell*COLS)/2;offsetY=(height-cell*ROWS)/2;draw()}
 new ResizeObserver(resize).observe(wrap);
 function pt(gx,gy){return{x:offsetX+(gx+.5)*cell,y:offsetY+(gy+.5)*cell}}
@@ -29,7 +29,7 @@ function move(next){if(won)return;dir=next;const head=snake[0],newHead={x:(head.
 addEventListener("keydown",e=>{if(!directions[e.key]||document.activeElement!==canvas)return;e.preventDefault();move(directions[e.key])});
 canvas.addEventListener("mouseenter",()=>canvas.focus());canvas.addEventListener("click",()=>canvas.focus());
 document.querySelectorAll("[data-direction]").forEach(b=>b.addEventListener("click",()=>{canvas.focus();const name="Arrow"+b.dataset.direction[0].toUpperCase()+b.dataset.direction.slice(1);move(directions[name])}));
-document.getElementById("reset-game").onclick=reset;document.querySelector(".dialog-close").onclick=()=>{dialog.close();canvas.focus()};dialog.addEventListener("click",e=>{if(e.target===dialog){dialog.close();canvas.focus()}});
+document.getElementById("reset-game").onclick=()=>reset(true);document.querySelector(".dialog-close").onclick=()=>{dialog.close();canvas.focus()};dialog.addEventListener("click",e=>{if(e.target===dialog){dialog.close();canvas.focus()}});
 function grid(){ctx.fillStyle="#0d0e17";ctx.fillRect(0,0,width,height);ctx.strokeStyle="rgba(255,255,255,.06)";ctx.lineWidth=1;for(let x=0;x<=COLS;x++){const px=offsetX+x*cell;ctx.beginPath();ctx.moveTo(px,offsetY);ctx.lineTo(px,offsetY+ROWS*cell);ctx.stroke()}for(let y=0;y<=ROWS;y++){const py=offsetY+y*cell;ctx.beginPath();ctx.moveTo(offsetX,py);ctx.lineTo(offsetX+COLS*cell,py);ctx.stroke()}}
 function drawHazards(){hazards.forEach(h=>{const p=pt(h.x,h.y),r=cell*.24;ctx.fillStyle="#351923";ctx.fillRect(p.x-r,p.y-r,r*2,r*2);ctx.strokeStyle="#ff6b4a";ctx.lineWidth=3;ctx.beginPath();ctx.moveTo(p.x-r*.55,p.y-r*.55);ctx.lineTo(p.x+r*.55,p.y+r*.55);ctx.moveTo(p.x+r*.55,p.y-r*.55);ctx.lineTo(p.x-r*.55,p.y+r*.55);ctx.stroke()})}
 function drawNodes(){nodes.forEach((n,i)=>{const p=pt(n.gx,n.gy),found=visited.has(n.id),target=i===targetIndex&&!won,pulse=target?5+Math.sin(tick*3)*3:0;ctx.beginPath();ctx.arc(p.x,p.y,cell*.24+pulse,0,Math.PI*2);ctx.fillStyle=n.color;ctx.fill();ctx.lineWidth=target?5:found?3:2;ctx.strokeStyle=target?"#c8ff45":found?"#76d8ff":"#fff";ctx.stroke();ctx.fillStyle=n.ink;ctx.font=`600 ${Math.max(9,cell*.22)}px 'DM Mono'`;ctx.textAlign="center";ctx.textBaseline="middle";ctx.fillText(String(i+1),p.x,p.y);ctx.fillStyle=n.color;ctx.font=`500 ${Math.max(8,cell*.2)}px 'DM Mono'`;ctx.fillText(n.label,p.x,p.y+cell*.62)})}
@@ -37,4 +37,4 @@ function drawSnake(){snake.slice().reverse().forEach((s,ri)=>{const original=sna
 function drawConfetti(){confetti.forEach(c=>{c.x+=c.vx;c.y+=c.vy;c.vy+=.13;ctx.fillStyle=c.c;ctx.fillRect(c.x,c.y,c.r,c.r)});confetti=confetti.filter(c=>c.y<height+20)}
 function draw(){grid();drawHazards();drawNodes();drawSnake();drawConfetti()}
 function animate(t){tick=t/500;draw();requestAnimationFrame(animate)}
-reset();resize();requestAnimationFrame(animate);
+reset(false);resize();requestAnimationFrame(animate);
