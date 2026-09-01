@@ -5,11 +5,10 @@ const nodes=[
 {id:"crowded",label:"CROWDED · 22",gx:15,gy:8,color:"#246BFD",ink:"#FFFFFF",tag:"2022 · TEL AVIV",title:"Product Management Intern",copy:"As an intern, built a scraper that generated 10,000+ leads and booked 50+ demos for a Tel Aviv fintech."},
 {id:"amazon",label:"AMAZON · 23",gx:3,gy:2,color:"#FF9900",ink:"#111118",tag:"2023 · SEATTLE",title:"Technical Program Manager Intern",copy:"As an intern, built a deduplication tool and a new data process projected to save Amazon $2.1M and 1,700 labor hours in year one."},
 {id:"curinos",label:"CURINOS · 24",gx:9,gy:1,color:"#6D50FF",ink:"#FFFFFF",tag:"MARCH — OCTOBER 2024",title:"Associate",copy:"Modeled $1T+ in retail deposits to help Wells Fargo, U.S. Bank and BMO make pricing, acquisition and retention calls."},
-{id:"yext",label:"YEXT · 24→",gx:15,gy:2,color:"#FFFFFF",ink:"#111118",tag:"OCTOBER 2024 — NOW · NEW YORK",title:"Technical Partner Manager",copy:"Led 65+ integrations across 45M+ listings and 200M+ reviews, including two Google launches that generated $2.8M in new ARR."},
-{id:"apple",label:"APPLE · 25",gx:9,gy:8,color:"#F4F4F4",ink:"#111118",tag:"2025 · NEW YORK",title:"Apple Maps Reseller Offering",copy:"Built a 0-to-1 Apple Maps reseller offering that supported $10M+ in upsells and renewals."},
+{id:"yext",label:"YEXT · 24→",gx:15,gy:2,color:"#FFFFFF",ink:"#111118",tag:"OCTOBER 2024 — NOW · NEW YORK",title:"Technical Partner Manager",copy:"Led 65+ integrations across 45M+ listings and 200M+ reviews, from two Google launches that generated $2.8M in new ARR to a 0-to-1 Apple Maps reseller offering behind $10M+ in upsells and renewals."},
 {id:"scaffold",label:"SCAFFOLDMAX · 26",gx:9,gy:5,color:"#C8FF45",ink:"#111118",tag:"2026 · SIDE PROJECT",title:"ScaffoldMaxNYC",copy:"Built a route planner for the most New York problem: crossing town under scaffolding when it rains.",link:"/scaffold/"}
 ];
-const nodeSlots=[{x:3,y:8},{x:15,y:8},{x:3,y:2},{x:9,y:1},{x:15,y:2},{x:9,y:5},{x:9,y:8}];
+const nodeSlots=[{x:3,y:8},{x:15,y:8},{x:3,y:2},{x:9,y:1},{x:15,y:2},{x:9,y:5}];
 const hazardSlots=[{x:6,y:3},{x:12,y:3},{x:6,y:7},{x:12,y:7},{x:9,y:7},{x:2,y:5},{x:15,y:5},{x:9,y:3},{x:4,y:5},{x:14,y:9}];
 let hazards=[];
 let width=0,height=0,dpr=1,cell=40,offsetX=0,offsetY=0,tick=0,snake=[],dir={x:1,y:0},visited=new Set(),targetIndex=0,moves=0,won=false,toastTimer=null,confetti=[];
