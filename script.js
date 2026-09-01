@@ -2,18 +2,19 @@ const canvas=document.getElementById("network-canvas"),ctx=canvas.getContext("2d
 const COLS=18,ROWS=11;
 const nodes=[
 {id:"unc",label:"UNC · 20–23",gx:3,gy:8,color:"#7BAFD4",ink:"#13294B",tag:"2020 — DECEMBER 2023",title:"UNC Kenan-Flagler",copy:"University of North Carolina at Chapel Hill. B.S. in Business Administration + Data Science."},
-{id:"crowded",label:"CROWDED · 22",gx:15,gy:8,color:"#246BFD",ink:"#FFFFFF",tag:"2022 · TEL AVIV",title:"Product Management Intern",copy:"Crowded. Fintech product work, customer discovery, and QA."},
-{id:"amazon",label:"AMAZON · 23",gx:3,gy:2,color:"#FF9900",ink:"#111118",tag:"2023 · SEATTLE",title:"Technical Program Manager Intern",copy:"Amazon. Data management, automation, and operations at scale."},
-{id:"curinos",label:"CURINOS · 24",gx:9,gy:1,color:"#6D50FF",ink:"#FFFFFF",tag:"MARCH — OCTOBER 2024",title:"Associate",copy:"Curinos. Financial services data and consulting."},
-{id:"yext",label:"YEXT · 24→",gx:15,gy:2,color:"#FFFFFF",ink:"#111118",tag:"OCTOBER 2024 — NOW · NEW YORK",title:"Technical Partner Manager",copy:"Yext. Product integrations and technical partnerships."},
-{id:"scaffold",label:"SCAFFOLDMAX · 26",gx:9,gy:5,color:"#C8FF45",ink:"#111118",tag:"2026 · SIDE PROJECT",title:"ScaffoldMaxNYC",copy:"A map for navigating NYC while staying dry under scaffolding.",link:"/scaffold/"}
+{id:"crowded",label:"CROWDED · 22",gx:15,gy:8,color:"#246BFD",ink:"#FFFFFF",tag:"2022 · TEL AVIV",title:"Product Management Intern",copy:"As an intern, built a scraper that generated 10,000+ leads and booked 50+ demos for a Tel Aviv fintech."},
+{id:"amazon",label:"AMAZON · 23",gx:3,gy:2,color:"#FF9900",ink:"#111118",tag:"2023 · SEATTLE",title:"Technical Program Manager Intern",copy:"As an intern, built a deduplication tool and a new data process projected to save Amazon $2.1M and 1,700 labor hours in year one."},
+{id:"curinos",label:"CURINOS · 24",gx:9,gy:1,color:"#6D50FF",ink:"#FFFFFF",tag:"MARCH — OCTOBER 2024",title:"Associate",copy:"Modeled $1T+ in retail deposits to help Wells Fargo, U.S. Bank and BMO make pricing, acquisition and retention calls."},
+{id:"yext",label:"YEXT · 24→",gx:15,gy:2,color:"#FFFFFF",ink:"#111118",tag:"OCTOBER 2024 — NOW · NEW YORK",title:"Technical Partner Manager",copy:"Led 65+ integrations across 45M+ listings and 200M+ reviews, including two Google launches that generated $2.8M in new ARR."},
+{id:"apple",label:"APPLE · 25",gx:9,gy:8,color:"#F4F4F4",ink:"#111118",tag:"2025 · NEW YORK",title:"Apple Maps Reseller Offering",copy:"Built a 0-to-1 Apple Maps reseller offering that supported $10M+ in upsells and renewals."},
+{id:"scaffold",label:"SCAFFOLDMAX · 26",gx:9,gy:5,color:"#C8FF45",ink:"#111118",tag:"2026 · SIDE PROJECT",title:"ScaffoldMaxNYC",copy:"Built a route planner for the most New York problem: crossing town under scaffolding when it rains.",link:"/scaffold/"}
 ];
-const nodeSlots=[{x:3,y:8},{x:15,y:8},{x:3,y:2},{x:9,y:1},{x:15,y:2},{x:9,y:5}];
+const nodeSlots=[{x:3,y:8},{x:15,y:8},{x:3,y:2},{x:9,y:1},{x:15,y:2},{x:9,y:5},{x:9,y:8}];
 const hazardSlots=[{x:6,y:3},{x:12,y:3},{x:6,y:7},{x:12,y:7},{x:9,y:7},{x:2,y:5},{x:15,y:5},{x:9,y:3},{x:4,y:5},{x:14,y:9}];
 let hazards=[];
 let width=0,height=0,dpr=1,cell=40,offsetX=0,offsetY=0,tick=0,snake=[],dir={x:1,y:0},visited=new Set(),targetIndex=0,moves=0,won=false,toastTimer=null,confetti=[];
 const directions={ArrowUp:{x:0,y:-1},w:{x:0,y:-1},W:{x:0,y:-1},ArrowDown:{x:0,y:1},s:{x:0,y:1},S:{x:0,y:1},ArrowLeft:{x:-1,y:0},a:{x:-1,y:0},A:{x:-1,y:0},ArrowRight:{x:1,y:0},d:{x:1,y:0},D:{x:1,y:0}};
-function updateHud(){document.getElementById("visited-count").textContent=visited.size;document.getElementById("move-count").textContent=moves;document.getElementById("target-label").textContent=won?"YOU WIN":nodes[targetIndex].label.split(" · ")[0]}
+function updateHud(){document.getElementById("node-count").textContent=nodes.length;document.getElementById("visited-count").textContent=visited.size;document.getElementById("move-count").textContent=moves;document.getElementById("target-label").textContent=won?"YOU WIN":nodes[targetIndex].label.split(" · ")[0]}
 function shuffled(items){const copy=items.slice();for(let i=copy.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[copy[i],copy[j]]=[copy[j],copy[i]]}return copy}
 function randomizeBoard(){const slots=shuffled(nodeSlots);nodes.forEach((n,i)=>{n.gx=slots[i].x;n.gy=slots[i].y});hazards=shuffled(hazardSlots).slice(0,5)}
 function resetSnake(){snake=[{x:9,y:9},{x:8,y:9},{x:7,y:9},{x:6,y:9}];dir={x:1,y:0}}
@@ -27,7 +28,8 @@ function openNode(n){document.getElementById("dialog-tag").textContent=n.tag;doc
 function celebrate(){won=true;updateHud();showToast("YOU FOUND EVERYTHING!");for(let i=0;i<90;i++)confetti.push({x:width/2,y:height/3,vx:(Math.random()-.5)*7,vy:Math.random()*-7-2,c:["#c8ff45","#ff6b4a","#76d8ff","#ffd95a"][i%4],r:Math.random()*4+2})}
 function move(next){if(won)return;dir=next;const head=snake[0],newHead={x:(head.x+dir.x+COLS)%COLS,y:(head.y+dir.y+ROWS)%ROWS};moves++;if(hazards.some(h=>h.x===newHead.x&&h.y===newHead.y)){reset();crash();showToast("CRASH — BACK TO START");return}snake.unshift(newHead);const target=nodes[targetIndex],foundTarget=newHead.x===target.gx&&newHead.y===target.gy;if(foundTarget){visited.add(target.id);targetIndex++;showToast("FOUND: "+target.label.split(" · ")[0]);openNode(target);if(targetIndex===nodes.length)celebrate()}else{snake.pop();const wrong=nodes.find(n=>n.gx===newHead.x&&n.gy===newHead.y&&!visited.has(n.id));if(wrong)showToast("FIND "+target.label.split(" · ")[0]+" FIRST")}updateHud();draw()}
 addEventListener("keydown",e=>{if(!directions[e.key]||document.activeElement!==canvas)return;e.preventDefault();move(directions[e.key])});
-canvas.addEventListener("mouseenter",()=>canvas.focus());canvas.addEventListener("click",()=>canvas.focus());
+canvas.addEventListener("mouseenter",()=>canvas.focus());
+canvas.addEventListener("click",e=>{canvas.focus();const r=canvas.getBoundingClientRect(),x=e.clientX-r.left,y=e.clientY-r.top;const node=nodes.find(n=>{const p=pt(n.gx,n.gy);return Math.hypot(x-p.x,y-p.y)<=cell*.48});if(node)openNode(node)});
 document.querySelectorAll("[data-direction]").forEach(b=>b.addEventListener("click",()=>{canvas.focus();const name="Arrow"+b.dataset.direction[0].toUpperCase()+b.dataset.direction.slice(1);move(directions[name])}));
 document.getElementById("reset-game").onclick=()=>reset(true);document.querySelector(".dialog-close").onclick=()=>{dialog.close();canvas.focus()};dialog.addEventListener("click",e=>{if(e.target===dialog){dialog.close();canvas.focus()}});
 function grid(){ctx.fillStyle="#0d0e17";ctx.fillRect(0,0,width,height);ctx.strokeStyle="rgba(255,255,255,.06)";ctx.lineWidth=1;for(let x=0;x<=COLS;x++){const px=offsetX+x*cell;ctx.beginPath();ctx.moveTo(px,offsetY);ctx.lineTo(px,offsetY+ROWS*cell);ctx.stroke()}for(let y=0;y<=ROWS;y++){const py=offsetY+y*cell;ctx.beginPath();ctx.moveTo(offsetX,py);ctx.lineTo(offsetX+COLS*cell,py);ctx.stroke()}}
