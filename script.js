@@ -1,5 +1,6 @@
 const canvas=document.getElementById("network-canvas"),ctx=canvas.getContext("2d"),wrap=document.querySelector(".canvas-wrap"),dialog=document.getElementById("node-dialog"),toast=document.getElementById("game-toast"),game=document.querySelector(".game");
 const COLS=18,ROWS=11;
+const linkedInLink=document.createElement("a");linkedInLink.href="https://www.linkedin.com/in/brettgoodman11";linkedInLink.textContent="LinkedIn";linkedInLink.hidden=true;linkedInLink.style.cssText="display:inline-block;margin-top:15px;margin-left:8px;background:#111118;color:#fff;padding:10px 15px;border-radius:30px;text-decoration:none;font:10px 'DM Mono'";dialog.append(linkedInLink);
 const nodes=[
 {id:"unc",label:"UNC · 20–23",gx:3,gy:8,color:"#7BAFD4",ink:"#13294B",tag:"2020 — DECEMBER 2023",title:"UNC Kenan-Flagler",copy:"University of North Carolina at Chapel Hill. B.S. in Business Administration + Data Science."},
 {id:"crowded",label:"CROWDED · 22",gx:15,gy:8,color:"#246BFD",ink:"#FFFFFF",tag:"2022 · TEL AVIV",title:"Product Management Intern",copy:"As an intern, built a scraper that generated 10,000+ leads and booked 50+ demos for a Tel Aviv fintech."},
@@ -17,14 +18,14 @@ function updateHud(){document.getElementById("node-count").textContent=nodes.len
 function shuffled(items){const copy=items.slice();for(let i=copy.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[copy[i],copy[j]]=[copy[j],copy[i]]}return copy}
 function randomizeBoard(){const slots=shuffled(nodeSlots);nodes.forEach((n,i)=>{n.gx=slots[i].x;n.gy=slots[i].y});hazards=shuffled(hazardSlots).slice(0,5)}
 function resetSnake(){snake=[{x:9,y:9},{x:8,y:9},{x:7,y:9},{x:6,y:9}];dir={x:1,y:0}}
-function reset(shouldFocus=true){randomizeBoard();resetSnake();visited=new Set();targetIndex=0;moves=0;won=false;confetti=[];updateHud();if(shouldFocus)canvas.focus();draw()}
+function reset(shouldFocus=true){randomizeBoard();resetSnake();visited=new Set();targetIndex=0;moves=0;won=false;confetti=[];linkedInLink.hidden=true;if(dialog.open)dialog.close();updateHud();if(shouldFocus)canvas.focus();draw()}
 function resize(){const r=wrap.getBoundingClientRect();width=r.width;height=r.height;dpr=Math.min(devicePixelRatio||1,2);canvas.width=width*dpr;canvas.height=height*dpr;ctx.setTransform(dpr,0,0,dpr,0,0);cell=Math.min(width/(COLS+1),height/(ROWS+1));offsetX=(width-cell*COLS)/2;offsetY=(height-cell*ROWS)/2;draw()}
 new ResizeObserver(resize).observe(wrap);
 function pt(gx,gy){return{x:offsetX+(gx+.5)*cell,y:offsetY+(gy+.5)*cell}}
 function showToast(text){toast.textContent=text;toast.classList.add("show");clearTimeout(toastTimer);toastTimer=setTimeout(()=>toast.classList.remove("show"),1100)}
 function crash(){game.classList.remove("crash");void game.offsetWidth;game.classList.add("crash");setTimeout(()=>game.classList.remove("crash"),650)}
-function openNode(n){document.getElementById("dialog-tag").textContent=n.tag;document.getElementById("dialog-title").textContent=n.title;document.getElementById("dialog-copy").textContent=n.copy;const link=document.getElementById("dialog-link");link.hidden=!n.link;if(n.link)link.href=n.link;if(!dialog.open)dialog.showModal()}
-function celebrate(){won=true;updateHud();showToast("YOU FOUND EVERYTHING!");for(let i=0;i<90;i++)confetti.push({x:width/2,y:height/3,vx:(Math.random()-.5)*7,vy:Math.random()*-7-2,c:["#c8ff45","#ff6b4a","#76d8ff","#ffd95a"][i%4],r:Math.random()*4+2})}
+function openNode(n){document.getElementById("dialog-tag").textContent=n.tag;document.getElementById("dialog-title").textContent=n.title;document.getElementById("dialog-copy").textContent=n.copy;const link=document.getElementById("dialog-link");link.textContent="go there ↗";link.hidden=!n.link;linkedInLink.hidden=true;if(n.link)link.href=n.link;if(!dialog.open)dialog.showModal()}
+function celebrate(){won=true;updateHud();document.getElementById("dialog-tag").textContent="6/6 FOUND";document.getElementById("dialog-title").textContent="That's a little about me.";document.getElementById("dialog-copy").textContent="Find out more here.";const link=document.getElementById("dialog-link");link.hidden=false;link.href="mailto:brettgoodman11@gmail.com";link.textContent="Email me";linkedInLink.hidden=false;showToast("YOU FOUND EVERYTHING!");for(let i=0;i<90;i++)confetti.push({x:width/2,y:height/3,vx:(Math.random()-.5)*7,vy:Math.random()*-7-2,c:["#c8ff45","#ff6b4a","#76d8ff","#ffd95a"][i%4],r:Math.random()*4+2})}
 function move(next){if(won)return;dir=next;const head=snake[0],newHead={x:(head.x+dir.x+COLS)%COLS,y:(head.y+dir.y+ROWS)%ROWS};moves++;if(hazards.some(h=>h.x===newHead.x&&h.y===newHead.y)){reset();crash();showToast("CRASH — BACK TO START");return}snake.unshift(newHead);const target=nodes[targetIndex],foundTarget=newHead.x===target.gx&&newHead.y===target.gy;if(foundTarget){visited.add(target.id);targetIndex++;showToast("FOUND: "+target.label.split(" · ")[0]);openNode(target);if(targetIndex===nodes.length)celebrate()}else{snake.pop();const wrong=nodes.find(n=>n.gx===newHead.x&&n.gy===newHead.y&&!visited.has(n.id));if(wrong)showToast("FIND "+target.label.split(" · ")[0]+" FIRST")}updateHud();draw()}
 addEventListener("keydown",e=>{if(!directions[e.key]||document.activeElement!==canvas)return;e.preventDefault();move(directions[e.key])});
 canvas.addEventListener("mouseenter",()=>canvas.focus());
@@ -39,3 +40,4 @@ function drawConfetti(){confetti.forEach(c=>{c.x+=c.vx;c.y+=c.vy;c.vy+=.13;ctx.f
 function draw(){grid();drawHazards();drawNodes();drawSnake();drawConfetti()}
 function animate(t){tick=t/500;draw();requestAnimationFrame(animate)}
 reset(false);resize();requestAnimationFrame(animate);
+
