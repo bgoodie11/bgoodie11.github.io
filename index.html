@@ -35,7 +35,11 @@
       </div>
 
       <div class="playfield-wrap">
-        <canvas id="snake-canvas" tabindex="0" aria-label="Snake résumé. Use arrow keys or WASD to collect work pellets."></canvas>
+        <canvas id="snake-canvas" tabindex="0" aria-label="Snake résumé. Start the game, then use arrow keys or WASD to turn the snake and collect work pellets."></canvas>
+        <div class="start-overlay" id="start-overlay">
+          <button id="start-game"><span>PLAY SNAKE</span><strong>TO LEARN ABOUT ME</strong><i>→</i></button>
+          <small>ARROWS / WASD / TAP CONTROLS</small>
+        </div>
         <div class="board-copy" aria-hidden="true">
           <span>USE ARROWS / WASD</span>
           <b>COLLECT MY STORY</b>
