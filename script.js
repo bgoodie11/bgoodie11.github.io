@@ -13,7 +13,8 @@ const nodes=[
 ];
 const COLS=19,ROWS=12;
 let width=0,height=0,dpr=1,cell=40,ox=0,oy=0,tick=0;
-let snake=[],dir={x:1,y:0},queuedDir={x:1,y:0},collected=new Set(),score=0,toastTimer,gameStarted=false,gameTimer=null;
+let snake=[],dir={x:1,y:0},queuedDir={x:1,y:0},collected=new Set(),score=0,toastTimer,gameStarted=false,gameTimer=null,crashed=false;
+function tickMs(){return matchMedia('(max-width:800px)').matches?300:240}
 const hazards=[{x:6,y:2},{x:11,y:2},{x:6,y:7},{x:16,y:7},{x:12,y:6},{x:2,y:6}];
 const directions={ArrowUp:{x:0,y:-1},w:{x:0,y:-1},W:{x:0,y:-1},ArrowDown:{x:0,y:1},s:{x:0,y:1},S:{x:0,y:1},ArrowLeft:{x:-1,y:0},a:{x:-1,y:0},A:{x:-1,y:0},ArrowRight:{x:1,y:0},d:{x:1,y:0},D:{x:1,y:0}};
 function resetSnake(){snake=[{x:9,y:10},{x:8,y:10},{x:7,y:10},{x:6,y:10}];dir={x:1,y:0};queuedDir={x:1,y:0}}
@@ -22,7 +23,9 @@ function resize(){const r=wrap.getBoundingClientRect();width=r.width;height=r.he
 function showToast(text){toast.textContent=text;toast.classList.add('show');clearTimeout(toastTimer);toastTimer=setTimeout(()=>toast.classList.remove('show'),1200)}
 function setDetail(node){const i=nodes.indexOf(node);document.getElementById('detail-number').textContent=String(i+1).padStart(2,'0');document.getElementById('detail-year').textContent=node.year;document.getElementById('detail-kicker').textContent=node.kicker;document.getElementById('detail-title').textContent=node.title;document.getElementById('detail-copy').textContent=node.copy;const link=document.getElementById('detail-link');link.href=node.link;link.textContent=node.linkLabel;document.querySelectorAll('.content-card').forEach(card=>card.classList.toggle('active',card.dataset.node===node.id))}
 function updateScore(){document.getElementById('score-value').textContent=String(score).padStart(3,'0');document.getElementById('length-value').textContent=String(snake.length).padStart(2,'0')}
-function crash(){shell.classList.remove('crash');void shell.offsetWidth;shell.classList.add('crash');resetSnake();collected.clear();score=0;updateScore();showToast('CRASH / STORY RESET')}
+function crash(){crashed=true;clearInterval(gameTimer);gameTimer=null;shell.classList.remove('crash');void shell.offsetWidth;shell.classList.add('crash');shell.classList.add('crashed');draw()}
+function randomizeBoard(){const taken=new Set(snake.map(s=>s.x+','+s.y));for(let bx=9;bx<=14;bx++)for(let by=9;by<=11;by++)taken.add(bx+','+by);const pick=(yMin,yMax)=>{let x,y,k;do{x=1+Math.floor(Math.random()*(COLS-2));y=yMin+Math.floor(Math.random()*(yMax-yMin+1));k=x+','+y}while(taken.has(k));taken.add(k);return{x,y}};nodes.forEach(n=>{const p=pick(1,ROWS-3);n.x=p.x;n.y=p.y});hazards.forEach(h=>{const p=pick(0,ROWS-1);h.x=p.x;h.y=p.y})}
+function retry(){clearInterval(gameTimer);resetSnake();collected.clear();score=0;updateScore();randomizeBoard();crashed=false;shell.classList.remove('crashed');canvas.focus();showToast('GO / NEW BOARD');gameTimer=setInterval(step,tickMs())}
 function turn(next){if(next.x===-dir.x&&next.y===-dir.y)return;queuedDir=next}
 function step(){dir=queuedDir;const head=snake[0];const newHead={x:(head.x+dir.x+COLS)%COLS,y:(head.y+dir.y+ROWS)%ROWS};if(hazards.some(h=>h.x===newHead.x&&h.y===newHead.y)||snake.some(s=>s.x===newHead.x&&s.y===newHead.y)){crash();return}snake.unshift(newHead);const hit=nodes.find(n=>n.x===newHead.x&&n.y===newHead.y&&!collected.has(n.id));if(hit){collected.add(hit.id);score+=100;setDetail(hit);showToast(`COLLECTED / ${hit.label} / +100`)}else snake.pop();updateScore();draw()}
 function grid(){ctx.fillStyle='#0b0d14';ctx.fillRect(0,0,width,height);ctx.strokeStyle='rgba(141,148,165,.11)';ctx.lineWidth=1;for(let x=0;x<=COLS;x++){const px=ox+x*cell;ctx.beginPath();ctx.moveTo(px,oy);ctx.lineTo(px,oy+ROWS*cell);ctx.stroke()}for(let y=0;y<=ROWS;y++){const py=oy+y*cell;ctx.beginPath();ctx.moveTo(ox,py);ctx.lineTo(ox+COLS*cell,py);ctx.stroke()}}
@@ -31,11 +34,12 @@ function drawNodes(){nodes.forEach((n,i)=>{const p=point(n.x,n.y),got=collected.
 function drawSnake(){snake.slice().reverse().forEach((s,ri)=>{const idx=snake.length-1-ri,p=point(s.x,s.y),head=idx===0,size=cell*(head?.29:.24);ctx.fillStyle=head?'#c8ff45':'#6ed8ff';ctx.shadowBlur=head?14:0;ctx.shadowColor='#c8ff45';ctx.beginPath();ctx.roundRect(p.x-size,p.y-size,size*2,size*2,Math.max(3,size*.35));ctx.fill();ctx.shadowBlur=0;if(head){ctx.fillStyle='#0b0d14';const sx=dir.y?cell*.08:dir.x*cell*.09,sy=dir.x?cell*.08:dir.y*cell*.09;ctx.beginPath();ctx.arc(p.x+sx-dir.y*cell*.07,p.y+sy-dir.x*cell*.07,1.8,0,Math.PI*2);ctx.arc(p.x+sx+dir.y*cell*.07,p.y+sy+dir.x*cell*.07,1.8,0,Math.PI*2);ctx.fill()}})}
 function draw(){grid();drawHazards();drawNodes();drawSnake()}
 function animate(t){tick=t/700;draw();requestAnimationFrame(animate)}
-function startGame(){if(gameStarted)return;gameStarted=true;shell.classList.add('playing');document.getElementById('start-overlay').classList.add('hidden');canvas.focus();showToast('GO / USE ARROWS TO TURN');gameTimer=setInterval(step,matchMedia('(max-width:800px)').matches?300:240)}
-addEventListener('keydown',e=>{if(!directions[e.key])return;e.preventDefault();if(!gameStarted)startGame();turn(directions[e.key])});
+function startGame(){if(gameStarted)return;gameStarted=true;shell.classList.add('playing');document.getElementById('start-overlay').classList.add('hidden');canvas.focus();showToast('GO / USE ARROWS TO TURN');gameTimer=setInterval(step,tickMs())}
+addEventListener('keydown',e=>{if(!directions[e.key])return;e.preventDefault();if(!gameStarted)startGame();else if(crashed)retry();turn(directions[e.key])});
 canvas.addEventListener('click',e=>{canvas.focus();const r=canvas.getBoundingClientRect(),x=e.clientX-r.left,y=e.clientY-r.top;const hit=nodes.find(n=>{const p=point(n.x,n.y);return Math.hypot(x-p.x,y-p.y)<cell*.5});if(hit)setDetail(hit)});
 document.querySelectorAll('.content-card').forEach(card=>card.addEventListener('click',()=>setDetail(nodes.find(n=>n.id===card.dataset.node))));
-document.querySelectorAll('[data-direction]').forEach(button=>button.addEventListener('click',()=>{const name='Arrow'+button.dataset.direction[0].toUpperCase()+button.dataset.direction.slice(1);if(!gameStarted)startGame();turn(directions[name])}));
+document.querySelectorAll('[data-direction]').forEach(button=>button.addEventListener('click',()=>{const name='Arrow'+button.dataset.direction[0].toUpperCase()+button.dataset.direction.slice(1);if(!gameStarted)startGame();else if(crashed)retry();turn(directions[name])}));
 document.getElementById('start-game').addEventListener('click',startGame);
-document.getElementById('reset-game').addEventListener('click',()=>{resetSnake();collected.clear();score=0;updateScore();setDetail(nodes[0]);showToast('NEW GAME')});
+document.getElementById('try-again').addEventListener('click',retry);
+document.getElementById('reset-game').addEventListener('click',()=>{if(gameStarted){retry();setDetail(nodes[0])}else{resetSnake();collected.clear();score=0;updateScore();randomizeBoard();setDetail(nodes[0]);showToast('NEW GAME')}});
 new ResizeObserver(resize).observe(wrap);resetSnake();updateScore();setDetail(nodes[0]);resize();requestAnimationFrame(animate);
