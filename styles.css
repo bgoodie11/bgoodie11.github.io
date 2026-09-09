@@ -30,3 +30,8 @@
 @keyframes crash-pop{0%{transform:scale(.72);opacity:0}100%{transform:scale(1);opacity:1}}
 @media(max-width:800px){.crash-word{font-size:23vw}.crash-overlay{gap:10px}#try-again{min-width:calc(100vw - 84px);padding:16px 14px}}
 @media(prefers-reduced-motion:reduce){.crash-word{animation:none}}
+
+/* Contact links live at the bottom once the game is underway. */
+.play-links{display:none;gap:22px}
+.game-shell.playing ~ footer .play-links{display:flex}
+@media(max-width:800px){footer{flex-wrap:wrap;row-gap:10px}}
