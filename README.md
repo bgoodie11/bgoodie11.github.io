@@ -1,31 +1,13 @@
-# Brett Goodman — Portfolio
+# Brett Goodman - snake-native personal site
 
-Interactive personal portfolio for Brett Goodman.
+A dependency-free static site served by GitHub Pages.
 
-## Experience
+## Structure
 
-The opening career map can be explored with:
+- `index.html` - the full-page game UI and accessible content
+- `styles.css` - responsive desktop/mobile layout
+- `script.js` - Snake board, collection state, content navigation, and canvas rendering
+- `Brett_Goodman_Resume.pdf` - downloadable résumé
+- `CNAME` - custom domain mapping
 
-- Arrow keys or WASD
-- Clickable nodes
-- On-screen controls on mobile
-
-The complete portfolio remains available below the map without requiring interaction.
-
-## Development
-
-This is a dependency-free static site:
-
-- `index.html`
-- `styles.css`
-- `script.js`
-
-GitHub Pages serves the site directly from the `main` branch. The existing `scaffold` project is linked at `/scaffold/`.
-
-## Next iterations
-
-- Refine the map mechanics and visual identity
-- Add reviewed case-study copy and metrics
-- Add résumé PDF and LinkedIn
-- Connect `brettgoodman.com`
-- Add project screenshots and richer node transitions
+The game is the navigation: pellets open work/about sections and the score and snake length track progress. Every pellet is also available as a button below the board, so the site remains usable without playing. `/scaffold/` remains linked from the Scaffold pellet.
