@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="description" content="Brett Goodman connects products, platforms, and people. Play the site to explore his work.">
+  <meta name="theme-color" content="#0b0d14">
+  <title>Brett Goodman - product, partnerships, integrations</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Instrument+Serif:ital@0;1&family=Manrope:wght@600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <main class="shell">
+    <header class="topbar">
+      <a class="wordmark" href="#board" aria-label="Brett Goodman home"><span class="status-dot"></span>BRETT.GOODMAN</a>
+      <p class="role">PRODUCT <span>×</span> PARTNERSHIPS <span>×</span> INTEGRATIONS</p>
+      <nav aria-label="Contact links">
+        <a href="/Brett_Goodman_Resume.pdf">RÉSUMÉ</a>
+        <a href="https://www.linkedin.com/in/brettgoodman11">LINKEDIN</a>
+        <a href="mailto:brettgoodman11@gmail.com">EMAIL</a>
+      </nav>
+    </header>
+
+    <section class="game-shell" id="board" aria-labelledby="intro-title">
+      <div class="game-hud">
+        <div class="intro-lockup">
+          <p>PLAYER ONE / NEW YORK</p>
+          <h1 id="intro-title">I make things<br><em>connect.</em></h1>
+        </div>
+        <div class="score" aria-live="polite">
+          <span>SCORE</span><strong id="score-value">000</strong>
+          <span>LENGTH</span><strong id="length-value">04</strong>
+        </div>
+      </div>
+
+      <div class="playfield-wrap">
+        <canvas id="snake-canvas" tabindex="0" aria-label="Snake résumé. Use arrow keys or WASD to collect work pellets."></canvas>
+        <div class="board-copy" aria-hidden="true">
+          <span>USE ARROWS / WASD</span>
+          <b>COLLECT MY STORY</b>
+        </div>
+        <div class="game-toast" id="game-toast" role="status"></div>
+      </div>
+
+      <div class="content-strip" id="content-strip" aria-label="Explore Brett's work">
+        <button class="content-card active" data-node="yext"><span>01</span><b>YEXT</b><small>$2.8M ARR</small></button>
+        <button class="content-card" data-node="curinos"><span>02</span><b>CURINOS</b><small>$1T+ ASSETS</small></button>
+        <button class="content-card" data-node="amazon"><span>03</span><b>AMAZON</b><small>$2.1M PROJECTED</small></button>
+        <button class="content-card" data-node="crowded"><span>04</span><b>CROWDED</b><small>10K+ LEADS</small></button>
+        <button class="content-card" data-node="scaffold"><span>05</span><b>SCAFFOLD</b><small>NYC ROUTING</small></button>
+        <button class="content-card" data-node="about"><span>06</span><b>ABOUT</b><small>GET IN TOUCH</small></button>
+      </div>
+
+      <div class="mobile-controls" aria-label="Snake controls">
+        <button data-direction="up" aria-label="Move up">↑</button>
+        <div><button data-direction="left" aria-label="Move left">←</button><button data-direction="down" aria-label="Move down">↓</button><button data-direction="right" aria-label="Move right">→</button></div>
+      </div>
+    </section>
+
+    <section class="detail-dock" id="detail-dock" aria-live="polite">
+      <div class="detail-index"><span id="detail-number">01</span><span id="detail-year">2024 → NOW</span></div>
+      <div class="detail-main"><p id="detail-kicker">TECHNICAL PARTNER MANAGER</p><h2 id="detail-title">Yext</h2><p id="detail-copy">Led integrations across 10M+ listings and ~1B reviews, with $2.8M ARR attached - plus a 0-to-1 Apple Maps reseller offering behind $10M+ in upsells.</p></div>
+      <div class="detail-actions"><a id="detail-link" href="https://www.linkedin.com/in/brettgoodman11">MORE ON LINKEDIN ↗</a><button id="reset-game">RESET GAME ↻</button></div>
+    </section>
+
+    <footer><span>© 2026 BRETT GOODMAN</span><span>THIS SITE IS THE GAME.</span><a href="https://github.com/bgoodie11">VIEW SOURCE ↗</a></footer>
+  </main>
+  <script src="script.js"></script>
+</body>
+</html>
