@@ -16,3 +16,17 @@
 .start-overlay button{display:block;text-align:center;position:relative}.start-overlay button strong{display:block;margin-top:5px}.start-overlay button span{animation:cta-pulse 1.45s steps(2,end) infinite}@keyframes cta-pulse{0%,58%{opacity:1}59%,100%{opacity:.48}}
 @media(max-width:800px){.start-overlay button{text-align:center}.start-overlay button strong{margin-top:5px}}
 @media(prefers-reduced-motion:reduce){.start-overlay button span{animation:none}}
+
+/* Crash screen: full-board red takeover with TRY AGAIN restart. */
+.crash-overlay{position:absolute;inset:0;z-index:4;display:grid;place-content:center;justify-items:center;gap:12px;background:rgba(209,30,26,.84);opacity:0;visibility:hidden;pointer-events:none;transition:opacity .18s,visibility .18s}
+.game-shell.crashed .crash-overlay{opacity:1;visibility:visible;pointer-events:auto}
+.crash-word{font:800 clamp(72px,15vw,180px) Manrope,sans-serif;letter-spacing:-.07em;color:#fff;margin:0;text-shadow:0 0 34px rgba(0,0,0,.35);animation:crash-pop .32s both}
+.crash-sub{font:500 10px "DM Mono";letter-spacing:.16em;color:#ffd9d6;margin:0 0 8px}
+#try-again{min-width:min(340px,74vw);padding:18px 22px;display:block;text-align:center;border:1px solid #fff;background:#fff;color:#b3120e;box-shadow:0 0 34px rgba(0,0,0,.28);cursor:pointer}
+#try-again span{font:800 clamp(20px,2vw,28px) Manrope,sans-serif;letter-spacing:-.03em}
+#try-again strong{display:block;margin-top:5px;font:500 9px "DM Mono";letter-spacing:.1em;color:#8c2a24}
+#try-again:hover{background:var(--lime);border-color:var(--lime);color:var(--bg)}
+#try-again:hover strong{color:#3c461f}
+@keyframes crash-pop{0%{transform:scale(.72);opacity:0}100%{transform:scale(1);opacity:1}}
+@media(max-width:800px){.crash-word{font-size:23vw}.crash-overlay{gap:10px}#try-again{min-width:calc(100vw - 84px);padding:16px 14px}}
+@media(prefers-reduced-motion:reduce){.crash-word{animation:none}}
