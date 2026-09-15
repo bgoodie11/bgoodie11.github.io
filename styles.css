@@ -36,3 +36,24 @@
 .game-shell.playing ~ footer .play-links{display:flex}
 @media(max-width:800px){footer{flex-wrap:wrap;row-gap:10px}}
 
+
+
+/* Win screen: lime mirror of the crash takeover, with an arcade victory burst. */
+.win-overlay{position:absolute;inset:0;z-index:5;display:grid;place-content:center;justify-items:center;gap:10px;overflow:hidden;background:rgba(200,255,69,.94);opacity:0;visibility:hidden;pointer-events:none;transition:opacity .18s,visibility .18s}
+.game-shell.won .win-overlay{opacity:1;visibility:visible;pointer-events:auto}
+.win-word{position:relative;z-index:1;font:800 clamp(62px,14vw,168px) Manrope,sans-serif;letter-spacing:-.075em;line-height:.85;color:var(--bg);margin:0;text-shadow:5px 5px 0 rgba(255,255,255,.52);animation:win-pop .38s both,win-blink .75s steps(2,end) .5s 3}
+.win-sub{position:relative;z-index:1;font:500 10px "DM Mono";letter-spacing:.16em;color:#28300f;margin:4px 0 8px}
+#play-again{position:relative;z-index:1;min-width:min(340px,74vw);padding:18px 22px;border:1px solid var(--bg);background:var(--bg);color:var(--lime);box-shadow:0 0 34px rgba(11,13,20,.28);cursor:pointer}
+#play-again span{font:800 clamp(20px,2vw,28px) Manrope,sans-serif;letter-spacing:-.03em}
+#play-again:hover{background:var(--ink);color:var(--bg)}
+.win-burst,.win-burst::before,.win-burst::after{position:absolute;inset:-35%;content:"";background:repeating-conic-gradient(from 0deg,rgba(11,13,20,.16) 0 3deg,transparent 3deg 13deg);animation:win-spin 8s linear infinite}
+.win-burst::before{transform:rotate(7deg) scale(.72);opacity:.5;animation-direction:reverse}
+.win-burst::after{background:radial-gradient(circle,transparent 0 24%,rgba(255,255,255,.38) 25% 26%,transparent 27% 36%,rgba(11,13,20,.2) 37% 38%,transparent 39%);animation:win-ring .7s ease-out both}
+.game-shell.win{animation:win-shake .45s linear}
+@keyframes win-pop{0%{transform:scale(.45) rotate(-4deg);opacity:0}70%{transform:scale(1.08) rotate(1deg)}100%{transform:scale(1);opacity:1}}
+@keyframes win-blink{50%{opacity:.62}}
+@keyframes win-spin{to{transform:rotate(360deg)}}
+@keyframes win-ring{0%{transform:scale(.35);opacity:0}100%{transform:scale(1);opacity:1}}
+@keyframes win-shake{25%{transform:translateY(-3px)}50%{transform:translateY(3px)}75%{transform:translateY(-1px)}}
+@media(max-width:800px){.win-word{font-size:20vw}.win-overlay{gap:8px}.win-sub{font-size:8px}#play-again{min-width:calc(100vw - 84px);padding:16px 14px}}
+@media(prefers-reduced-motion:reduce){.win-word,.win-burst,.win-burst::before,.win-burst::after{animation:none}}
