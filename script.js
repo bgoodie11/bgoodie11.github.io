@@ -13,7 +13,7 @@ const nodes=[
 ];
 const COLS=19,ROWS=12;
 let width=0,height=0,dpr=1,cell=40,ox=0,oy=0,tick=0;
-let snake=[],dir={x:1,y:0},queuedDir={x:1,y:0},collected=new Set(),score=0,toastTimer,gameStarted=false,gameTimer=null,crashed=false;
+let snake=[],dir={x:1,y:0},queuedDir={x:1,y:0},collected=new Set(),score=0,toastTimer,gameStarted=false,gameTimer=null,crashed=false,won=false;
 function tickMs(){return matchMedia('(max-width:800px)').matches?300:240}
 const hazards=[{x:6,y:2},{x:11,y:2},{x:6,y:7},{x:16,y:7},{x:12,y:6},{x:2,y:6}];
 const directions={ArrowUp:{x:0,y:-1},w:{x:0,y:-1},W:{x:0,y:-1},ArrowDown:{x:0,y:1},s:{x:0,y:1},S:{x:0,y:1},ArrowLeft:{x:-1,y:0},a:{x:-1,y:0},A:{x:-1,y:0},ArrowRight:{x:1,y:0},d:{x:1,y:0},D:{x:1,y:0}};
@@ -23,11 +23,12 @@ function resize(){const r=wrap.getBoundingClientRect();width=r.width;height=r.he
 function showToast(text){toast.textContent=text;toast.classList.add('show');clearTimeout(toastTimer);toastTimer=setTimeout(()=>toast.classList.remove('show'),1200)}
 function setDetail(node){const i=nodes.indexOf(node);document.getElementById('detail-number').textContent=String(i+1).padStart(2,'0');document.getElementById('detail-year').textContent=node.year;document.getElementById('detail-kicker').textContent=node.kicker;document.getElementById('detail-title').textContent=node.title;document.getElementById('detail-copy').textContent=node.copy;const link=document.getElementById('detail-link');link.href=node.link;link.textContent=node.linkLabel;link.classList.toggle('mega',node.id==='scaffold');document.querySelectorAll('.content-card').forEach(card=>card.classList.toggle('active',card.dataset.node===node.id))}
 function updateScore(){document.getElementById('score-value').textContent=String(score).padStart(3,'0');document.getElementById('length-value').textContent=String(snake.length).padStart(2,'0')}
-function crash(){crashed=true;clearInterval(gameTimer);gameTimer=null;shell.classList.remove('crash');void shell.offsetWidth;shell.classList.add('crash');shell.classList.add('crashed');draw()}
+function crash(){if(won)return;crashed=true;clearInterval(gameTimer);gameTimer=null;shell.classList.remove('crash');void shell.offsetWidth;shell.classList.add('crash');shell.classList.add('crashed');draw()}
+function win(){won=true;clearInterval(gameTimer);gameTimer=null;shell.classList.remove('win');void shell.offsetWidth;shell.classList.add('won','win');document.getElementById('win-overlay').setAttribute('aria-hidden','false');draw()}
 function randomizeBoard(){const taken=new Set();const placed=[];const pick=(yMin,yMax,sep)=>{let x,y,k,tries=0;do{x=1+Math.floor(Math.random()*(COLS-2));y=yMin+Math.floor(Math.random()*(yMax-yMin+1));k=x+','+y;tries++}while((taken.has(k)||(sep&&tries<80&&placed.some(p=>Math.abs(p.x-x)<sep&&Math.abs(p.y-y)<2)))&&tries<300);taken.add(k);const pt={x,y};placed.push(pt);return pt};nodes.forEach(n=>{const p=pick(1,ROWS-3,4);n.x=p.x;n.y=p.y});hazards.forEach(h=>{const p=pick(0,ROWS-1,0);h.x=p.x;h.y=p.y})}
-function retry(){clearInterval(gameTimer);randomizeBoard();spawnSnake();collected.clear();score=0;updateScore();crashed=false;shell.classList.remove('crashed');canvas.focus();showToast('GO / NEW BOARD');gameTimer=setInterval(step,tickMs())}
+function retry(){clearInterval(gameTimer);randomizeBoard();spawnSnake();collected.clear();score=0;updateScore();crashed=false;won=false;shell.classList.remove('crashed','won','win');document.getElementById('crash-overlay').setAttribute('aria-hidden','true');document.getElementById('win-overlay').setAttribute('aria-hidden','true');canvas.focus();showToast('GO / NEW BOARD');gameTimer=setInterval(step,tickMs())}
 function turn(next){if(next.x===-dir.x&&next.y===-dir.y)return;queuedDir=next}
-function step(){dir=queuedDir;const head=snake[0];const newHead={x:(head.x+dir.x+COLS)%COLS,y:(head.y+dir.y+ROWS)%ROWS};if(hazards.some(h=>h.x===newHead.x&&h.y===newHead.y)||snake.some(s=>s.x===newHead.x&&s.y===newHead.y)){crash();return}snake.unshift(newHead);const hit=nodes.find(n=>n.x===newHead.x&&n.y===newHead.y&&!collected.has(n.id));if(hit){collected.add(hit.id);score+=100;setDetail(hit);showToast(`COLLECTED / ${hit.label} / +100`)}else snake.pop();updateScore();draw()}
+function step(){dir=queuedDir;const head=snake[0];const newHead={x:(head.x+dir.x+COLS)%COLS,y:(head.y+dir.y+ROWS)%ROWS};if(hazards.some(h=>h.x===newHead.x&&h.y===newHead.y)||snake.some(s=>s.x===newHead.x&&s.y===newHead.y)){crash();return}snake.unshift(newHead);const hit=nodes.find(n=>n.x===newHead.x&&n.y===newHead.y&&!collected.has(n.id));if(hit){collected.add(hit.id);score+=100;setDetail(hit);if(collected.size===nodes.length){updateScore();win();return}showToast(`COLLECTED / ${hit.label} / +100`)}else snake.pop();updateScore();draw()}
 function grid(){ctx.fillStyle='#0b0d14';ctx.fillRect(0,0,width,height);ctx.strokeStyle='rgba(141,148,165,.11)';ctx.lineWidth=1;for(let x=0;x<=COLS;x++){const px=ox+x*cell;ctx.beginPath();ctx.moveTo(px,oy);ctx.lineTo(px,oy+ROWS*cell);ctx.stroke()}for(let y=0;y<=ROWS;y++){const py=oy+y*cell;ctx.beginPath();ctx.moveTo(ox,py);ctx.lineTo(ox+COLS*cell,py);ctx.stroke()}}
 function drawHazards(){hazards.forEach(h=>{const p=point(h.x,h.y),r=cell*.18;ctx.strokeStyle='#3b4050';ctx.lineWidth=1.5;ctx.beginPath();ctx.moveTo(p.x-r,p.y-r);ctx.lineTo(p.x+r,p.y+r);ctx.moveTo(p.x+r,p.y-r);ctx.lineTo(p.x-r,p.y+r);ctx.stroke()})}
 function drawNodes(){nodes.forEach((n,i)=>{const p=point(n.x,n.y),got=collected.has(n.id),pulse=got?0:Math.sin(tick*2+i)*2;ctx.fillStyle=got?'#303644':n.color;ctx.beginPath();ctx.arc(p.x,p.y,cell*.18+pulse,0,Math.PI*2);ctx.fill();ctx.strokeStyle=got?'#5d6474':n.color;ctx.lineWidth=1;ctx.beginPath();ctx.arc(p.x,p.y,cell*.28+pulse,0,Math.PI*2);ctx.stroke();ctx.font=`500 ${Math.max(8,cell*.17)}px DM Mono`;ctx.textAlign='center';ctx.fillStyle=got?'#71798b':n.color;ctx.fillText(n.label,p.x,p.y+cell*.56);ctx.font=`400 ${Math.max(7,cell*.13)}px DM Mono`;ctx.fillStyle='#777f90';ctx.fillText(n.metric,p.x,p.y+cell*.78)})}
@@ -35,14 +36,12 @@ function drawSnake(){snake.slice().reverse().forEach((s,ri)=>{const idx=snake.le
 function draw(){grid();drawHazards();drawNodes();drawSnake()}
 function animate(t){tick=t/700;draw();requestAnimationFrame(animate)}
 function startGame(){if(gameStarted)return;gameStarted=true;shell.classList.add('playing');document.getElementById('start-overlay').classList.add('hidden');canvas.focus();showToast('GO / USE ARROWS TO TURN');gameTimer=setInterval(step,tickMs())}
-addEventListener('keydown',e=>{if(!directions[e.key])return;e.preventDefault();if(!gameStarted)startGame();else if(crashed)retry();turn(directions[e.key])});
+addEventListener('keydown',e=>{if(!directions[e.key])return;e.preventDefault();if(!gameStarted)startGame();else if(crashed||won)retry();turn(directions[e.key])});
 canvas.addEventListener('click',e=>{canvas.focus();const r=canvas.getBoundingClientRect(),x=e.clientX-r.left,y=e.clientY-r.top;const hit=nodes.find(n=>{const p=point(n.x,n.y);return Math.hypot(x-p.x,y-p.y)<cell*.5});if(hit)setDetail(hit)});
 document.querySelectorAll('.content-card').forEach(card=>card.addEventListener('click',()=>setDetail(nodes.find(n=>n.id===card.dataset.node))));
-document.querySelectorAll('[data-direction]').forEach(button=>button.addEventListener('click',()=>{const name='Arrow'+button.dataset.direction[0].toUpperCase()+button.dataset.direction.slice(1);if(!gameStarted)startGame();else if(crashed)retry();turn(directions[name])}));
+document.querySelectorAll('[data-direction]').forEach(button=>button.addEventListener('click',()=>{const name='Arrow'+button.dataset.direction[0].toUpperCase()+button.dataset.direction.slice(1);if(!gameStarted)startGame();else if(crashed||won)retry();turn(directions[name])}));
 document.getElementById('start-game').addEventListener('click',startGame);
 document.getElementById('try-again').addEventListener('click',retry);
+document.getElementById('play-again').addEventListener('click',retry);
 document.getElementById('reset-game').addEventListener('click',()=>{if(gameStarted){retry();setDetail(nodes[0])}else{randomizeBoard();spawnSnake();collected.clear();score=0;updateScore();setDetail(nodes[0]);showToast('NEW GAME')}});
 new ResizeObserver(resize).observe(wrap);spawnSnake();updateScore();setDetail(nodes[0]);resize();requestAnimationFrame(animate);
-
-
-
