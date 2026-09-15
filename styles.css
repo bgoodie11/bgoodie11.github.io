@@ -42,10 +42,16 @@
 .win-overlay{position:absolute;inset:0;z-index:5;display:grid;place-content:center;justify-items:center;gap:10px;overflow:hidden;background:rgba(200,255,69,.94);opacity:0;visibility:hidden;pointer-events:none;transition:opacity .18s,visibility .18s}
 .game-shell.won .win-overlay{opacity:1;visibility:visible;pointer-events:auto}
 .win-word{position:relative;z-index:1;font:800 clamp(62px,14vw,168px) Manrope,sans-serif;letter-spacing:-.075em;line-height:.85;color:var(--bg);margin:0;text-shadow:5px 5px 0 rgba(255,255,255,.52);animation:win-pop .38s both,win-blink .75s steps(2,end) .5s 3}
-.win-sub{position:relative;z-index:1;font:500 10px "DM Mono";letter-spacing:.16em;color:#28300f;margin:4px 0 8px}
-#play-again{position:relative;z-index:1;min-width:min(340px,74vw);padding:18px 22px;border:1px solid var(--bg);background:var(--bg);color:var(--lime);box-shadow:0 0 34px rgba(11,13,20,.28);cursor:pointer}
-#play-again span{font:800 clamp(20px,2vw,28px) Manrope,sans-serif;letter-spacing:-.03em}
-#play-again:hover{background:var(--ink);color:var(--bg)}
+.win-sub{position:relative;z-index:1;font:500 10px "DM Mono";letter-spacing:.16em;color:#28300f;margin:4px 0 1px}
+.win-pitch{position:relative;z-index:1;margin:0 0 7px;font:800 clamp(12px,1.25vw,17px) Manrope,sans-serif;letter-spacing:-.015em;color:var(--bg)}
+.win-actions{position:relative;z-index:1;display:grid;grid-template-columns:1.25fr 1fr;width:min(560px,78vw);box-shadow:0 0 34px rgba(11,13,20,.28)}
+.win-cta{display:flex;align-items:center;justify-content:space-between;gap:18px;padding:17px 20px;font:800 clamp(16px,1.7vw,23px) Manrope,sans-serif;letter-spacing:-.03em;text-decoration:none;border:1px solid var(--bg);transition:background .15s,color .15s,transform .15s}
+.win-cta-primary{background:var(--bg);color:var(--lime)}
+.win-cta-secondary{background:var(--lime);color:var(--bg);border-left:0}
+.win-cta:hover{background:var(--ink);color:var(--lime);transform:translateY(-2px)}
+#play-again{position:relative;z-index:1;padding:6px 10px;border:0;background:transparent;color:var(--bg);cursor:pointer}
+#play-again span{font:500 9px "DM Mono";letter-spacing:.12em;text-decoration:underline;text-underline-offset:4px}
+#play-again:hover{color:#3c461f}
 .win-burst,.win-burst::before,.win-burst::after{position:absolute;inset:-35%;content:"";background:repeating-conic-gradient(from 0deg,rgba(11,13,20,.16) 0 3deg,transparent 3deg 13deg);animation:win-spin 8s linear infinite}
 .win-burst::before{transform:rotate(7deg) scale(.72);opacity:.5;animation-direction:reverse}
 .win-burst::after{background:radial-gradient(circle,transparent 0 24%,rgba(255,255,255,.38) 25% 26%,transparent 27% 36%,rgba(11,13,20,.2) 37% 38%,transparent 39%);animation:win-ring .7s ease-out both}
@@ -55,5 +61,5 @@
 @keyframes win-spin{to{transform:rotate(360deg)}}
 @keyframes win-ring{0%{transform:scale(.35);opacity:0}100%{transform:scale(1);opacity:1}}
 @keyframes win-shake{25%{transform:translateY(-3px)}50%{transform:translateY(3px)}75%{transform:translateY(-1px)}}
-@media(max-width:800px){.win-word{font-size:20vw}.win-overlay{gap:8px}.win-sub{font-size:8px}#play-again{min-width:calc(100vw - 84px);padding:16px 14px}}
+@media(max-width:800px){.win-word{font-size:20vw}.win-overlay{gap:7px;padding:18px}.win-sub{font-size:8px}.win-pitch{font-size:11px;margin-bottom:5px}.win-actions{width:calc(100vw - 54px);grid-template-columns:1fr}.win-cta{padding:14px 16px;font-size:18px}.win-cta-secondary{border-left:1px solid var(--bg);border-top:0}#play-again{padding:7px 12px}}
 @media(prefers-reduced-motion:reduce){.win-word,.win-burst,.win-burst::before,.win-burst::after{animation:none}}
