@@ -39,7 +39,12 @@ function startGame(){if(gameStarted)return;gameStarted=true;shell.classList.add(
 addEventListener('keydown',e=>{if(!directions[e.key])return;e.preventDefault();if(!gameStarted)startGame();else if(crashed||won)retry();turn(directions[e.key])});
 canvas.addEventListener('click',e=>{canvas.focus();const r=canvas.getBoundingClientRect(),x=e.clientX-r.left,y=e.clientY-r.top;const hit=nodes.find(n=>{const p=point(n.x,n.y);return Math.hypot(x-p.x,y-p.y)<cell*.5});if(hit)setDetail(hit)});
 document.querySelectorAll('.content-card').forEach(card=>card.addEventListener('click',()=>setDetail(nodes.find(n=>n.id===card.dataset.node))));
-document.querySelectorAll('[data-direction]').forEach(button=>button.addEventListener('click',()=>{const name='Arrow'+button.dataset.direction[0].toUpperCase()+button.dataset.direction.slice(1);if(!gameStarted)startGame();else if(crashed||won)retry();turn(directions[name])}));
+function useDirectionControl(button){
+  const steer=e=>{e.preventDefault();const value=button.dataset.dir;const name='Arrow'+value[0].toUpperCase()+value.slice(1);if(!gameStarted)startGame();else if(crashed||won)retry();turn(directions[name])};
+  button.addEventListener('pointerdown',steer);
+  button.addEventListener('click',e=>{if(e.detail===0)steer(e)});
+}
+document.querySelectorAll('[data-dir]').forEach(useDirectionControl);
 document.getElementById('start-game').addEventListener('click',startGame);
 document.getElementById('try-again').addEventListener('click',retry);
 document.getElementById('play-again').addEventListener('click',retry);
