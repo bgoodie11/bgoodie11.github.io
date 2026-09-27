@@ -1,0 +1,97 @@
+<!doctype html>
+<html lang='en'>
+<head>
+  <meta charset='utf-8'>
+  <meta name='viewport' content='width=device-width,initial-scale=1,viewport-fit=cover'>
+  <meta name='description' content='404. This page does not exist.'>
+  <meta name='theme-color' content='#0b0d14'>
+  <title>404 - Brett Goodman</title>
+  <link rel='preconnect' href='https://fonts.googleapis.com'>
+  <link rel='preconnect' href='https://fonts.gstatic.com' crossorigin>
+  <link href='https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Manrope:wght@600;700;800&display=swap' rel='stylesheet'>
+  <style>
+    :root{--bg:#0b0d14;--panel:#11151f;--line:#2a3040;--ink:#f7f2e8;--muted:#8d94a5;--lime:#c8ff45;--coral:#ff6b4a}
+    *{box-sizing:border-box}
+    html{background:var(--bg)}
+    body{margin:0;background:var(--bg);color:var(--ink);font-family:"DM Mono",monospace}
+    .shell{min-height:100vh;padding:16px;display:flex;flex-direction:column}
+    .topbar{height:54px;border:1px solid var(--line);display:grid;grid-template-columns:1fr auto 1fr;align-items:center;padding:0 18px;background:#0e1119}
+    .wordmark{color:var(--ink);text-decoration:none;font-size:12px;font-weight:500;letter-spacing:.08em}
+    .status-dot{display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--coral);box-shadow:0 0 12px var(--coral);margin-right:10px}
+    .role{font-size:9px;letter-spacing:.08em;color:var(--muted)}
+    .role span{color:var(--coral)}
+    nav{display:flex;justify-content:flex-end;gap:22px}
+    nav a,footer a{color:var(--ink);font-size:9px;text-decoration:none}
+    nav a:hover,footer a:hover{color:var(--lime)}
+    .dead-board{flex:1;border:1px solid var(--line);border-top:0;background:var(--panel);position:relative;display:grid;place-content:center;justify-items:center;gap:14px;overflow:hidden;background:radial-gradient(circle at 35% 30%,rgba(58,74,92,.18),transparent 40%)}
+    .hud{position:absolute;top:0;left:0;right:0;display:flex;justify-content:space-between;padding:28px 34px;pointer-events:none}
+    .hud .tag{font-size:9px;color:var(--lime);letter-spacing:.15em}
+    .hud .score{display:grid;grid-template-columns:auto auto;gap:2px 14px;text-align:right}
+    .hud .score span{font-size:8px;color:var(--muted);letter-spacing:.12em;padding-top:4px}
+    .hud .score strong{font:500 21px "DM Mono";color:var(--coral)}
+    .word{font:800 clamp(96px,18vw,220px) Manrope,sans-serif;letter-spacing:-.07em;line-height:.85;color:var(--coral);margin:0;text-shadow:0 0 34px rgba(0,0,0,.35);animation:pop .32s both}
+    .sub{font:500 10px "DM Mono";letter-spacing:.16em;color:var(--muted);margin:0}
+    .pitch{margin:0 0 8px;font:800 clamp(14px,1.4vw,18px) Manrope,sans-serif;letter-spacing:-.015em;color:var(--ink)}
+    .pitch .cursor{animation:blink 1.2s steps(2,end) infinite;color:var(--lime)}
+    .cta{min-width:min(340px,74vw);padding:18px 22px;display:block;text-align:center;border:1px solid var(--lime);background:var(--lime);color:var(--bg);box-shadow:0 0 34px rgba(200,255,69,.18);text-decoration:none;transition:transform .15s}
+    .cta span{font:800 clamp(20px,2vw,28px) Manrope,sans-serif;letter-spacing:-.03em}
+    .cta strong{display:block;margin-top:5px;font:500 9px "DM Mono";letter-spacing:.1em;color:#3c461f}
+    .cta:hover{background:var(--ink);transform:translateY(-2px)}
+    .corner{position:absolute;left:34px;bottom:24px;display:flex;gap:14px;align-items:center;font-size:8px;color:var(--muted);letter-spacing:.1em;pointer-events:none}
+    .corner b{color:var(--ink);font-weight:500}
+    footer{border:1px solid var(--line);border-top:0;padding:16px 18px;display:flex;justify-content:space-between;gap:22px;color:var(--muted);font-size:8px;letter-spacing:.06em}
+    @keyframes pop{0%{transform:scale(.72);opacity:0}100%{transform:scale(1);opacity:1}}
+    @keyframes blink{50%{opacity:0}}
+    @media(max-width:800px){
+      .shell{padding:8px}
+      .topbar{height:auto;min-height:58px;grid-template-columns:1fr auto;padding:10px 12px}
+      .role{display:none}
+      .hud{padding:20px 18px}
+      .hud .score strong{font-size:17px}
+      .word{font-size:34vw}
+      .corner{left:18px;bottom:16px}
+      footer{flex-wrap:wrap;row-gap:10px}
+      footer span:nth-child(2){display:none}
+    }
+    @media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+  </style>
+</head>
+<body>
+  <main class='shell'>
+    <header class='topbar'>
+      <a class='wordmark' href='/' aria-label='Brett Goodman home'><span class='status-dot'></span>BRETT.GOODMAN</a>
+      <p class='role'>PRODUCT <span>×</span> PARTNERSHIPS <span>×</span> INTEGRATIONS</p>
+      <nav aria-label='Contact links'>
+        <a href='/Brett_Goodman_Resume.pdf'>RÉSUMÉ</a>
+        <a href='https://www.linkedin.com/in/brettgoodman11'>LINKEDIN</a>
+        <a href='mailto:brettgoodman11@gmail.com'>EMAIL</a>
+      </nav>
+    </header>
+
+    <section class='dead-board' aria-labelledby='dead-word'>
+      <div class='hud'>
+        <span class='tag'>ERR_404</span>
+        <div class='score' aria-live='polite'>
+          <span>STATUS</span><strong>404</strong>
+          <span>ROUTE</span><strong>NONE</strong>
+        </div>
+      </div>
+
+      <p class='word' id='dead-word'>404</p>
+      <p class='sub'>PAGE NOT FOUND</p>
+      <p class='pitch'>This page hasn't been built yet.<span class='cursor'>_</span></p>
+      <a class='cta' href='/'><span>GO HOME</span><strong>BRETTGOODMAN.COM</strong></a>
+
+      <div class='corner' aria-hidden='true'>
+        <span id='req-line'>GET /</span>
+        <b>404 NOT FOUND</b>
+      </div>
+    </section>
+
+    <footer><span>© 2026 BRETT GOODMAN</span><span>BASED IN NEW YORK</span><nav aria-label='Contact links'><a href='/Brett_Goodman_Resume.pdf'>RÉSUMÉ</a><a href='https://www.linkedin.com/in/brettgoodman11'>LINKEDIN</a><a href='mailto:brettgoodman11@gmail.com'>EMAIL</a></nav><a href='https://github.com/bgoodie11'>VIEW SOURCE ↗</a></footer>
+  </main>
+  <script>
+    (function(){var p=location.pathname;if(p.length>1){document.getElementById('req-line').textContent='GET '+p;}})();
+  </script>
+</body>
+</html>
