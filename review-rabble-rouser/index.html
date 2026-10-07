@@ -1,0 +1,124 @@
+<!doctype html>
+<html lang='en'>
+<head>
+  <meta charset='utf-8'>
+  <meta name='viewport' content='width=device-width,initial-scale=1,viewport-fit=cover'>
+  <meta name='description' content='Review Rabble Rouser is a feedback loop for personal AI agents: recommendations, real experiences, honest reviews, better suggestions. By Brett Goodman.'>
+  <meta property='og:type' content='website'>
+  <meta property='og:site_name' content='Brett Goodman'>
+  <meta property='og:title' content='Review Rabble Rouser — recommendations that learn'>
+  <meta property='og:description' content='A feedback loop for personal AI agents: recommend, experience, review, repeat. Every suggestion grounded in what you actually liked.'>
+  <meta property='og:url' content='https://brettgoodman.com/review-rabble-rouser/'>
+  <meta property='og:image' content='https://brettgoodman.com/review-rabble-rouser/icon.svg'>
+  <meta name='twitter:card' content='summary'>
+  <meta name='theme-color' content='#0b0d14'>
+  <title>Review Rabble Rouser — recommendations that learn</title>
+  <link rel='icon' href='icon.svg' type='image/svg+xml'>
+  <link rel='preconnect' href='https://fonts.googleapis.com'>
+  <link rel='preconnect' href='https://fonts.gstatic.com' crossorigin>
+  <link href='https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Instrument+Serif:ital@0;1&family=Manrope:wght@600;700;800&display=swap' rel='stylesheet'>
+  <style>
+    :root{--bg:#0b0d14;--ink:#ece9df;--dim:#9a97a8;--amber:#f2b544;--line:#232636;--card:#12151f}
+    *{box-sizing:border-box;margin:0;padding:0}
+    body{background:var(--bg);color:var(--ink);font-family:'Manrope',system-ui,sans-serif;line-height:1.65;-webkit-font-smoothing:antialiased}
+    .shell{max-width:46rem;margin:0 auto;padding:1.5rem 1.25rem 4rem}
+    .topbar{display:flex;align-items:center;justify-content:space-between;gap:1rem;flex-wrap:wrap;padding:1rem 0 2.5rem;border-bottom:1px solid var(--line)}
+    .wordmark{font-family:'DM Mono',monospace;font-size:.8rem;letter-spacing:.18em;color:var(--ink);text-decoration:none;display:flex;align-items:center;gap:.5rem}
+    .status-dot{width:.55rem;height:.55rem;border-radius:50%;background:var(--amber);box-shadow:0 0 12px var(--amber)}
+    .topbar nav{display:flex;gap:1.1rem}
+    .topbar nav a{font-family:'DM Mono',monospace;font-size:.72rem;letter-spacing:.14em;color:var(--dim);text-decoration:none}
+    .topbar nav a:hover{color:var(--amber)}
+    .hero{padding:3.5rem 0 3rem;text-align:left}
+    .hero-icon{width:5.5rem;height:5.5rem;border-radius:1.4rem;display:block;margin-bottom:1.6rem;box-shadow:0 12px 40px rgba(0,0,0,.5)}
+    .kicker{font-family:'DM Mono',monospace;font-size:.72rem;letter-spacing:.22em;color:var(--amber);margin-bottom:1rem}
+    h1{font-family:'Instrument Serif',serif;font-weight:400;font-size:clamp(2.4rem,6vw,3.6rem);line-height:1.08;margin-bottom:1.2rem}
+    h1 em{font-style:italic;color:var(--amber)}
+    .lede{font-size:1.08rem;color:var(--dim);max-width:36rem;margin-bottom:2rem}
+    .lede strong{color:var(--ink)}
+    .hero-actions{display:flex;gap:.8rem;flex-wrap:wrap}
+    .cta{display:inline-block;font-family:'DM Mono',monospace;font-size:.78rem;letter-spacing:.14em;background:var(--amber);color:#14100a;text-decoration:none;padding:.85rem 1.4rem;border-radius:.6rem;font-weight:500}
+    .cta:hover{filter:brightness(1.08)}
+    .cta-ghost{display:inline-block;font-family:'DM Mono',monospace;font-size:.78rem;letter-spacing:.14em;color:var(--ink);text-decoration:none;padding:.85rem 1.4rem;border-radius:.6rem;border:1px solid var(--line)}
+    .cta-ghost:hover{border-color:var(--amber);color:var(--amber)}
+    section.block{padding:2.8rem 0;border-top:1px solid var(--line)}
+    .loop{list-style:none;display:grid;gap:1rem;margin-top:1.4rem}
+    .loop li{background:var(--card);border:1px solid var(--line);border-radius:.8rem;padding:1.2rem 1.3rem}
+    .loop b{font-family:'DM Mono',monospace;font-size:.74rem;letter-spacing:.18em;color:var(--amber);display:block;margin-bottom:.4rem}
+    .loop span{color:var(--dim);font-size:.95rem}
+    .loop span strong{color:var(--ink)}
+    .rules{list-style:none;margin-top:1.4rem;display:grid;gap:.7rem}
+    .rules li{padding-left:1.6rem;position:relative;color:var(--dim);font-size:.96rem}
+    .rules li::before{content:'✓';position:absolute;left:0;color:var(--amber);font-family:'DM Mono',monospace}
+    .rules li strong{color:var(--ink)}
+    code.endpoint{display:block;font-family:'DM Mono',monospace;font-size:.82rem;background:#07090f;border:1px solid var(--line);border-radius:.6rem;padding:1rem 1.2rem;margin:1.2rem 0;color:var(--amber);overflow-x:auto;white-space:nowrap}
+    .linkrow{display:flex;gap:.7rem;flex-wrap:wrap;margin-top:1.2rem}
+    .linkrow a{font-family:'DM Mono',monospace;font-size:.74rem;letter-spacing:.14em;color:var(--ink);text-decoration:none;border:1px solid var(--line);border-radius:.6rem;padding:.7rem 1.1rem}
+    .linkrow a:hover{border-color:var(--amber);color:var(--amber)}
+    .note{margin-top:1.4rem;font-size:.88rem;color:var(--dim)}
+    footer{margin-top:3rem;padding-top:1.5rem;border-top:1px solid var(--line);display:flex;justify-content:space-between;gap:1rem;flex-wrap:wrap;font-family:'DM Mono',monospace;font-size:.7rem;letter-spacing:.14em;color:var(--dim)}
+    footer a{color:var(--dim);text-decoration:none}
+    footer a:hover{color:var(--amber)}
+  </style>
+</head>
+<body>
+  <main class='shell'>
+    <header class='topbar'>
+      <a class='wordmark' href='/'><span class='status-dot'></span>BRETT.GOODMAN</a>
+      <nav aria-label='Contact links'>
+        <a href='/Brett_Goodman_Resume.pdf'>RÉSUMÉ</a>
+        <a href='https://www.linkedin.com/in/brettgoodman11'>LINKEDIN</a>
+        <a href='mailto:brettgoodman11@gmail.com'>EMAIL</a>
+      </nav>
+    </header>
+
+    <section class='hero'>
+      <img class='hero-icon' src='icon.svg' alt='Review Rabble Rouser icon: a feedback loop around a star'>
+      <p class='kicker'>A FEEDBACK LOOP FOR PERSONAL AI AGENTS</p>
+      <h1>Recommendations that <em>learn.</em></h1>
+      <p class='lede'>Your agent suggests a spot. You actually go. It follows up, records what you thought, and turns the real story into a public review — <strong>only with your approval</strong>. Every loop makes the next recommendation sharper.</p>
+      <div class='hero-actions'>
+        <a class='cta' href='#connect'>CONNECT IT ↗</a>
+        <a class='cta-ghost' href='https://review-rabble-rouser-production.up.railway.app/docs'>READ THE DOCS</a>
+      </div>
+    </section>
+
+    <section class='block'>
+      <p class='kicker'>THE LOOP</p>
+      <ol class='loop'>
+        <li><b>01 · RECOMMEND</b><span>Your agent suggests a place, product, or service — <strong>recorded with the why</strong>, so there's something to follow up on.</span></li>
+        <li><b>02 · EXPERIENCE</b><span>You go live your life. The agent checks back in and <strong>records how it actually went</strong>: rating, what landed, what didn't.</span></li>
+        <li><b>03 · REVIEW</b><span>Your genuine feedback becomes a public review draft. <strong>Nothing publishes until you approve the exact text and stars.</strong></span></li>
+        <li><b>04 · LEARN</b><span>Every experience feeds the next suggestion. The loop <strong>compounds</strong> — recommendations grounded in your real taste.</span></li>
+      </ol>
+    </section>
+
+    <section class='block'>
+      <p class='kicker'>GROUND RULES</p>
+      <ul class='rules'>
+        <li><strong>Only your facts.</strong> Ratings, opinions, and details come from you — never invented, never embellished.</li>
+        <li><strong>Your approval, every time.</strong> No public review goes out without you signing off on the exact words.</li>
+        <li><strong>Neutral follow-ups.</strong> Good nights and bad nights get the same nudge. No cherry-picking five-star moments.</li>
+        <li><strong>Your data, your call.</strong> Export or delete everything whenever you want.</li>
+      </ul>
+    </section>
+
+    <section class='block' id='connect'>
+      <p class='kicker'>CONNECT</p>
+      <p class='lede'>One MCP server, every agent. Point your MCP client here:</p>
+      <code class='endpoint'>https://review-rabble-rouser-production.up.railway.app/mcp</code>
+      <div class='linkrow'>
+        <a href='https://review-rabble-rouser-production.up.railway.app/docs'>DOCS ↗</a>
+        <a href='https://review-rabble-rouser-production.up.railway.app/privacy'>PRIVACY ↗</a>
+        <a href='https://review-rabble-rouser-production.up.railway.app/terms'>TERMS ↗</a>
+        <a href='mailto:brettgoodman11@gmail.com'>SUPPORT ↗</a>
+      </div>
+      <p class='note'>Directory listings in progress: Meta Muse connectors and the ChatGPT App Directory. Built by <a href='/' style='color:var(--amber)'>Brett Goodman</a> — originally to make his own agent stop recommending places he'd already hated.</p>
+    </section>
+
+    <footer>
+      <span>© 2026 BRETT GOODMAN</span>
+      <span><a href='/'>BRETTGOODMAN.COM</a> · <a href='https://github.com/bgoodie11'>GITHUB ↗</a></span>
+    </footer>
+  </main>
+</body>
+</html>

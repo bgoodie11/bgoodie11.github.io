@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-label="Review Rabble Rouser icon">
+  <defs>
+    <marker id="ah" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6.5" markerHeight="6.5" orient="auto-start-reverse">
+      <path d="M 0 1 L 9 5 L 0 9 z" fill="#f2b544"/>
+    </marker>
+  </defs>
+  <rect width="512" height="512" rx="112" fill="#2b2358"/>
+  <path d="M 96 312 A 178 178 0 0 1 412 158" fill="none" stroke="#f2b544" stroke-width="42" stroke-linecap="round" marker-end="url(#ah)"/>
+  <path d="M 416 332 A 178 178 0 0 1 100 382" fill="none" stroke="#f2b544" stroke-width="42" stroke-linecap="round" marker-end="url(#ah)"/>
+  <path d="M 256 218 L 271 248.6 L 304 253.4 L 279.5 277.6 L 285.5 310.4 L 256 294.6 L 226.5 310.4 L 232.5 277.6 L 208 253.4 L 241 248.6 Z" fill="#f2b544"/>
+</svg>
