@@ -19,7 +19,7 @@
   <link rel='preconnect' href='https://fonts.googleapis.com'>
   <link rel='preconnect' href='https://fonts.gstatic.com' crossorigin>
   <link href='https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Instrument+Serif:ital@0;1&family=Manrope:wght@600;700;800&display=swap' rel='stylesheet'>
-  <link rel='stylesheet' href='styles.css?v=win3'>
+  <link rel='stylesheet' href='styles.css?v=rules1'>
 </head>
 <body>
   <main class='shell'>
@@ -45,6 +45,7 @@
         <canvas id='snake-canvas' tabindex='0' aria-label='Snake résumé. Start the game, then use arrow keys or WASD to turn the snake and collect work pellets.'></canvas>
         <div class='start-overlay' id='start-overlay'>
           <button id='start-game'><span>PLAY SNAKE</span><strong>TO LEARN ABOUT ME</strong></button>
+          <small class='start-rules'>Collect all six dots to learn about me. <span class='keys-desktop'>Use arrow keys or WASD.</span><span class='keys-mobile'>Use the on-screen arrows.</span> Avoid the X's and your own tail. Edges wrap around.</small>
         </div>
         <div class='crash-overlay' id='crash-overlay' aria-hidden='true'>
           <p class='crash-word'>CRASH</p>
@@ -58,6 +59,7 @@
           <div class='win-actions'>
             <a class='win-cta win-cta-primary' href='https://www.linkedin.com/in/brettgoodman11'>MEET ME <span>↗</span></a>
             <a class='win-cta win-cta-secondary' href='/Brett_Goodman_Resume.pdf'>VIEW RÉSUMÉ <span>↗</span></a>
+            <button class='win-cta win-cta-keep' id='keep-playing' type='button'>KEEP PLAYING <span>FREE PLAY ↻</span></button>
           </div>
           <button id='play-again'><span>PLAY AGAIN</span></button>
         </div>
@@ -93,6 +95,6 @@
 
     <footer><span>© 2026 BRETT GOODMAN</span><span>THIS SITE IS THE GAME.</span><nav class='play-links' aria-label='Contact links'><a href='/Brett_Goodman_Resume.pdf'>RÉSUMÉ</a><a href='https://www.linkedin.com/in/brettgoodman11'>LINKEDIN</a><a href='mailto:brettgoodman11@gmail.com'>EMAIL</a></nav><a href='https://github.com/bgoodie11'>VIEW SOURCE ↗</a></footer>
   </main>
-  <script src='script.js?v=winfix1'></script>
+  <script src='script.js?v=rules1'></script>
 </body>
 </html>
